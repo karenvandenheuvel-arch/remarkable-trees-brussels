@@ -1,8 +1,11 @@
 'use strict';
 import './styles/style.css';
+import { fetchTrees } from './scripts/api.js';
 
 function initApp() {
-console.log("App started");
+fetchTrees().then(trees => {
+    console.log(trees);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
