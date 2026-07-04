@@ -1,11 +1,12 @@
 'use strict';
 import './styles/style.css';
 import { fetchTrees } from './scripts/api.js';
+import { renderTreeList } from './scripts/render.js';
 
 function initApp() {
 fetchTrees().then(trees => {
-    console.log(trees);
-  });
+  renderTreeList(trees);
+});
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
