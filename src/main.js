@@ -6,6 +6,7 @@ import { renderTreeList } from './scripts/render.js';
 function initApp() {
 fetchTrees().then(trees => {
   renderTreeList(trees);
+  console.log(trees);
 });
 }
 
