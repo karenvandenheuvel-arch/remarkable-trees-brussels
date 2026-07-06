@@ -1,7 +1,7 @@
 'use strict';
 
 const TREE_ICON_SVG = `          
- <svg viewBox="0 0 80 95" class="tree-icon">
+ <svg viewBox="-3 -3 86 101" class="tree-icon">
             <path d="M40 0 L60 25 H48 L67 50 H55 L75 75 H5 L25 50 H13 L32 25 H20 Z"
                     fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
             <rect x="32" y="75" width="16" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="3"/>
