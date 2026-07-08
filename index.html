@@ -15,9 +15,19 @@
   <main>
      <section id="controls" aria-label="Search and filter controls">
     <input type="text" id="search-input" placeholder="Zoek een boom...">
+    <select id="sort-select">
+    <option value="">Sorteer op...</option>
+    <option value="name-asc">Naam (A-Z)</option>
+    <option value="name-desc">Naam (Z-A)</option>
+    <option value="girth-desc">Omtrek (grootste eerst)</option>
+    <option value="girth-asc">Omtrek (kleinste eerst)</option>
+    <option value="crown-desc">Kruin (grootste eerst)</option>
+    <option value="crown-asc">Kruin (kleinste eerst)</option>
+  </select>
+  
   </section>
     <div id="app">
-    <p>Loading trees...</p>
+    <p>Bomen laden...</p>
   </div>
   </main>
   <script type="module" src="/src/main.js"></script>
