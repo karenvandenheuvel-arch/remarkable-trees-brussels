@@ -27,11 +27,14 @@ export function renderTreeList(trees) {
     <div class="tree-card">
       ${imageHtml}
       <span class="rarity-badge">${getRarityLabel(tree.rarete)}</span>
+      <div class="card-text">
       <h3>${tree.nom_nl}</h3>
+    
       <p class="latin-name">${tree.nom_la}</p>
       <p>Omtrek: ${tree.circonference} m</p>
       <p>Kruindiameter: ${tree.diametre_cime} m</p>
       <a href="${tree.url_nl}" target="_blank">Meer info</a>
+      </div>
     </div>
     `;
     }).join('');

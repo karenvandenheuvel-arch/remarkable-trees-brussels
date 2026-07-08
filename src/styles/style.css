@@ -42,7 +42,7 @@ header h1 {
 
 .tree-photo, .tree-icon {
   width: 100%;
-  height: 160px;
+  height: 260px;
   object-fit: cover;
   border-radius: 8px;
   background-color: #f7f5f0;
@@ -50,5 +50,45 @@ header h1 {
 
 .tree-icon{
   padding: 1.5rem 0;
-  color: #6b6b6b;
+  color: #c4c4c4e2;
 }
+
+.card-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.card-text h3, .card-text p, .card-text a  {
+margin-bottom:6px;
+}
+
+.card-text p {
+margin-top: 0;
+}
+
+.rarity-badge {
+  align-self: flex-start;
+  background-color: #e8f0e0;
+  color: #3b6d11;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.tree-card a {
+  margin-top: auto;
+  color: #3b6d11;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.tree-card a:hover {
+  text-decoration: underline;
+}
+
+
+
+
+
