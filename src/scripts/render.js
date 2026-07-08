@@ -19,7 +19,7 @@ export function renderTreeList(trees) {
 
     container.innerHTML = trees.map(tree => {
         const imageHtml = tree.firstimage
-            ? `<img src="${tree.firstimage}" alt="${tree.nom_nl}" class="tree-photo">`
+            ? `<img data-src="${tree.firstimage}" alt="${tree.nom_nl}" class="tree-photo lazy">`
             : TREE_ICON_SVG;
     
 
@@ -38,4 +38,24 @@ export function renderTreeList(trees) {
     </div>
     `;
     }).join('');
+}
+
+export function observeLazyImages() {
+  const lazyImages = document.querySelectorAll('img.lazy');
+
+  const imageObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        img.src = img.dataset.src;
+        img.classList.remove('lazy');
+        observer.unobserve(img);
+      }
+    });
+}, {
+    rootMargin: '100px 0px',
+    threshold: 0.1
+  });
+
+  lazyImages.forEach(img => imageObserver.observe(img));
 }
