@@ -17,6 +17,10 @@ function getRarityLabel(rarete) {
 export function renderTreeList(trees) {
     const container = document.querySelector('#app');
 
+      if (trees.length === 0) {
+    container.innerHTML = `<p class="no-results">Geen bomen gevonden voor deze combinatie van filters.</p>`;
+    return;
+  }
     container.innerHTML = trees.map(tree => {
         const imageHtml = tree.firstimage
             ? `<img data-src="${tree.firstimage}" alt="${tree.nom_nl}" class="tree-photo lazy">`

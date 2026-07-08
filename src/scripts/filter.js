@@ -8,6 +8,22 @@ export function filterTreesBySearch(trees, searchTerm) {
   );
 }
 
+export function filterTreesByRarity(trees, rarity) {
+return trees.filter(tree => rarity === tree.rarete );
+}
+
+export function filterTreesBySpecies(trees, species) {
+  console.log('zoek naar:', JSON.stringify(species));
+  console.log('bestaande waarden:', trees.slice(0, 5).map(t => JSON.stringify(t.nom_la)));
+return trees.filter(tree => species === tree.nom_la );
+}
+
+export function getUniqueSpecies(trees) {
+const uniqueSpecies = [...new Set(trees.map(tree => tree.nom_la))];
+return uniqueSpecies.sort((a,b) => a.localeCompare(b));
+}
+
+
 export function sortTrees(trees, sortOption) { 
   const sorted = trees.map(function(tree) {  // kopie van trees
     return tree;
