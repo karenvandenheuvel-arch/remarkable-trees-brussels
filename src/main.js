@@ -3,6 +3,7 @@ import './styles/style.css';
 import { fetchTrees } from './scripts/api.js';
 import { renderTreeList, observeLazyImages } from './scripts/render.js';
 import { filterTreesBySearch, sortTrees, filterTreesByRarity, filterTreesBySpecies, getUniqueSpecies} from './scripts/filter.js';
+import { toggleFavorite } from './scripts/favorites.js';
 
 let allTrees = [];
 let currentSearch = '';
@@ -15,6 +16,8 @@ fetchTrees().then(trees => {
   allTrees = trees;
   createSpeciesDropdown(allTrees);
   applyFilters();
+  const appContainer = document.querySelector('#app');
+  appContainer.addEventListener('click', handleFavoriteClick);
 });
 
 const searchInput = document.querySelector('#search-input');
@@ -28,6 +31,14 @@ raritySelect.addEventListener('change', handleRarityChange);
 
 const speciesSelect = document.querySelector('#species-select');
 speciesSelect.addEventListener('change', handleSpeciesChange);
+}
+
+function handleFavoriteClick(event) {
+  const button = event.target.closest('.favorite-icon');
+  if (!button) return;
+  const treeId = button.dataset.treeId;
+  toggleFavorite(treeId);
+  applyFilters();
 }
 
 function handleSearchInput(event) {

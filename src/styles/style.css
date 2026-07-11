@@ -38,6 +38,7 @@ header h1 {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  position: relative;
 }
 
 .tree-photo, .tree-icon {
@@ -95,6 +96,48 @@ margin-top: 0;
   padding: 3rem 0;
 }
 
+.photo-wrapper {
+  position: relative;
+}
+
+
+.favorite-icon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+  background-color:white;
+  border: none;
+  border-radius: 20%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.favorite-icon svg {
+  width:18px;
+  height:21px;
+  color:#888;
+  pointer-events: none;
+  padding: 0;
+
+
+}
+
+.favorite-icon.active svg {
+color: #3b6d11;
+}
+
+.favorite-icon.active svg path,
+.favorite-icon.active svg rect {
+  fill: #a3c585;
+}
 
 
 
