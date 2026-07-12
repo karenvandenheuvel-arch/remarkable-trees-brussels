@@ -1,4 +1,5 @@
 'use strict';
+import { isFavorite } from './favorites.js';
 
 export function filterTreesBySearch(trees, searchTerm) {
   const term = searchTerm.toLowerCase();
@@ -23,6 +24,9 @@ const uniqueSpecies = [...new Set(trees.map(tree => tree.nom_la))];
 return uniqueSpecies.sort((a,b) => a.localeCompare(b));
 }
 
+export function filterTreesByFavorites(trees) {
+  return trees.filter(tree => isFavorite(tree.id_arbres_cms));
+}
 
 export function sortTrees(trees, sortOption) { 
   const sorted = trees.map(function(tree) {  // kopie van trees

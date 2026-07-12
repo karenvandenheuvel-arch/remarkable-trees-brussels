@@ -26,3 +26,7 @@ export function toggleFavorite(treeId) {
         setFavorites(favorites_copy);
     }
     }
+
+    export function clearFavorites() {
+        localStorage.removeItem(STORAGE_KEY);
+    }
