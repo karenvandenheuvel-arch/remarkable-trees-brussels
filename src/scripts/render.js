@@ -1,6 +1,7 @@
 'use strict';
 
 import { isFavorite } from './favorites.js';
+import { translations } from './translations.js';
 
 const TREE_ICON_SVG = `          
  <svg viewBox="-3 -3 86 101" class="tree-icon">
@@ -19,24 +20,28 @@ function getFavoriteButtonHtml(treeId) {
   `;
 }
 
-function getRarityLabel(rarete) {
-    if (rarete === '1') return 'Zeldzaam';
-    if (rarete === '0.5') return 'Bijzonder';
-    return 'Gewoon'
+function getRarityLabel(rarete, lang) {
+  const t = translations[lang];
+ if (rarete === '1') return t.rarityRare;
+  if (rarete === '0.5') return t.rarityNotable;
+  return t.rarityCommon;
 }
 
-export function renderTreeList(trees) {
+export function renderTreeList(trees, lang) {
     const container = document.querySelector('#app');
+    const t = translations[lang];
+
 
       if (trees.length === 0) {
-    container.innerHTML = `<p class="no-results">Geen bomen gevonden voor deze combinatie van filters.</p>`;
+ container.innerHTML = `<p class="no-results">${t.noResults}</p>`;
     return;
   }
     container.innerHTML = trees.map(tree => {
         const imageHtml = tree.firstimage
             ? `<img data-src="${tree.firstimage}" alt="${tree.nom_nl}" class="tree-photo lazy">`
             : TREE_ICON_SVG;
-    
+        const treeName = lang === 'fr' ? tree.nom_fr : tree.nom_nl;
+    const infoUrl = lang === 'fr' ? tree.url_fr : tree.url_nl;
 
         return `
     <div class="tree-card">
@@ -44,15 +49,14 @@ export function renderTreeList(trees) {
       ${imageHtml}
       ${getFavoriteButtonHtml(tree.id_arbres_cms)}
     </div>
-      <span class="rarity-badge">${getRarityLabel(tree.rarete)}</span>
-      <div class="card-text">
-      <h3>${tree.nom_nl}</h3>
-    
-      <p class="latin-name">${tree.nom_la}</p>
-      <p>Omtrek: ${tree.circonference} m</p>
-      <p>Kruindiameter: ${tree.diametre_cime} m</p>
-      <a href="${tree.url_nl}" target="_blank">Meer info</a>
-      </div>
+      <span class="rarity-badge">${getRarityLabel(tree.rarete, lang)}</span>
+       <div class="card-text">
+          <h3>${treeName}</h3>
+          <p class="latin-name">${tree.nom_la}</p>
+          <p>${t.girth}: ${tree.circonference} m</p>
+          <p>${t.crownDiameter}: ${tree.diametre_cime} m</p>
+          <a href="${infoUrl}" target="_blank">${t.moreInfo}</a>
+        </div>
     </div>
     `;
     }).join('');

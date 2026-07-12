@@ -139,6 +139,25 @@ color: #3b6d11;
   fill: #a3c585;
 }
 
+.language-toggle {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.lang-btn {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ccc;
+  background-color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.lang-btn.active {
+  background-color: #2d4a1e;
+  color: white;
+  border-color: #2d4a1e;
+}
+
 
 
 

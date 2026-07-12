@@ -11,6 +11,10 @@
 <body>
   <header>
     <h1>Remarkable Trees of Brussels </h1>
+<div class="language-toggle">
+  <button type="button" class="lang-btn active" data-lang="nl">NL</button>
+  <button type="button" class="lang-btn" data-lang="fr">FR</button>
+</div>
   </header>
   <main>
      <section id="controls" aria-label="Search and filter controls">
@@ -36,12 +40,11 @@
 </select>
   <label>
   <input type="checkbox" id="favorites-only-checkbox">
-  Alleen favorieten
+    <span id="favorites-only-label">Alleen favorieten</span>
 </label>
 <button type="button" id="reset-favorites-btn">Reset favorieten</button>
   </section>
     <div id="app">
-    <p>Bomen laden...</p>
   </div>
   </main>
   <script type="module" src="/src/main.js"></script>
