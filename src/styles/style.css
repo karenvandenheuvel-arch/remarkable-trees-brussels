@@ -2,8 +2,14 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+  margin:0;
+}
+
 body {
-  margin: 0;
+  display: flex;
+  flex-direction: column;
   font-family: system-ui, sans-serif;
   background-color:#f7f5f0;
   color: #2e2e2e;
@@ -19,6 +25,13 @@ header {
 header h1 {
   margin: 0;
   font-size: 1.8rem;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 #app {
@@ -156,6 +169,22 @@ color: #3b6d11;
   background-color: #2d4a1e;
   color: white;
   border-color: #2d4a1e;
+}
+
+#map {
+  flex: 1;
+  min-height:0;
+  height: 500px;
+  border-radius: 12px;
+  display: none;
+}
+
+#map.visible {
+  display: block;
+}
+
+#app.hidden {
+  display: none;
 }
 
 

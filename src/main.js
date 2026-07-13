@@ -5,6 +5,7 @@ import { renderTreeList, observeLazyImages } from './scripts/render.js';
 import { filterTreesBySearch, sortTrees, filterTreesByRarity, filterTreesBySpecies, getUniqueSpecies, filterTreesByFavorites} from './scripts/filter.js';
 import { toggleFavorite, clearFavorites } from './scripts/favorites.js';
 import {translations} from './scripts/translations.js';
+import { initMap, refreshMapSize } from './scripts/map.js';
 
 let allTrees = [];
 let currentSearch = '';
@@ -14,9 +15,11 @@ let currentSpecies ='';
 let showFavoritesOnly = false;
 const storedLang = localStorage.getItem("language");
 let currentLang = storedLang ? storedLang : "nl";
+let currentView = 'list';
 
 function initApp() {
 setLanguage();
+initMap();
 fetchTrees().then(trees => {
   allTrees = trees;
   createSpeciesDropdown(allTrees);
@@ -47,6 +50,9 @@ appContainer.addEventListener('click', handleFavoriteClick);
 
 const languageToggle = document.querySelector('.language-toggle');
 languageToggle.addEventListener('click', handleLanguageToggle);
+
+const viewToggle = document.querySelector('.view-toggle');
+viewToggle.addEventListener('click', handleViewToggle);
 
 }
 
@@ -86,6 +92,29 @@ function handleRarityChange(event) {
 function handleSpeciesChange(event) {
   currentSpecies = event.target.value;
   applyFilters();
+}
+
+function handleViewToggle(event) {
+  const button = event.target.closest('.view-btn');
+  if (!button) return;
+
+  currentView = button.dataset.view;
+
+  document.querySelectorAll('.view-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.view === currentView);
+  });
+
+  const mapEl = document.querySelector('#map');
+  const appEl = document.querySelector('#app');
+
+  if (currentView === 'map') {
+    appEl.classList.add('hidden');
+    mapEl.classList.add('visible');
+    refreshMapSize();
+  } else {
+    appEl.classList.remove('hidden');
+    mapEl.classList.remove('visible');
+  }
 }
 
 function handleLanguageToggle(event) {
