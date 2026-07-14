@@ -1,5 +1,6 @@
 'use strict';
 import { isFavorite } from './favorites.js';
+import { translations } from './translations.js';
 
 export function filterTreesBySearch(trees, searchTerm) {
   const term = searchTerm.toLowerCase();
@@ -49,4 +50,24 @@ export function sortTrees(trees, sortOption) {
 
   return sorted;
 
+}
+
+export function getRarityLabel(rarete, lang) {
+  const t = translations[lang];
+ if (rarete === '1') return t.rarityRare;
+  if (rarete === '0.5') return t.rarityNotable;
+  return t.rarityCommon;
+}
+
+export function getTreeDisplayData(tree, lang) {
+  const t = translations[lang];
+
+  return {
+    name: lang === 'fr' ? tree.nom_fr : tree.nom_nl,
+    latinName: tree.nom_la,
+    infoUrl: lang === 'fr' ? tree.url_fr : tree.url_nl,
+    infoLabel: t.moreInfo,
+    rarityLabel: getRarityLabel(tree.rarete, lang),
+    photoUrl: tree.firstimage
+  };
 }

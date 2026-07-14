@@ -5,7 +5,7 @@ import { renderTreeList, observeLazyImages } from './scripts/render.js';
 import { filterTreesBySearch, sortTrees, filterTreesByRarity, filterTreesBySpecies, getUniqueSpecies, filterTreesByFavorites} from './scripts/filter.js';
 import { toggleFavorite, clearFavorites } from './scripts/favorites.js';
 import {translations} from './scripts/translations.js';
-import { initMap, refreshMapSize } from './scripts/map.js';
+import { initMap, refreshMapSize, renderMapMarkers } from './scripts/map.js';
 
 let allTrees = [];
 let currentSearch = '';
@@ -104,16 +104,16 @@ function handleViewToggle(event) {
     btn.classList.toggle('active', btn.dataset.view === currentView);
   });
 
-  const mapEl = document.querySelector('#map');
-  const appEl = document.querySelector('#app');
+  const mapContainer = document.querySelector('#map');
+  const listContainer = document.querySelector('#app');
 
   if (currentView === 'map') {
-    appEl.classList.add('hidden');
-    mapEl.classList.add('visible');
+    listContainer.classList.add('hidden');
+    mapContainer.classList.add('visible');
     refreshMapSize();
   } else {
-    appEl.classList.remove('hidden');
-    mapEl.classList.remove('visible');
+    listContainer.classList.remove('hidden');
+    mapContainer.classList.remove('visible');
   }
 }
 
@@ -191,6 +191,7 @@ function applyFilters() {
   }
   renderTreeList(result, currentLang);
   observeLazyImages();
+  renderMapMarkers(result, currentLang);
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
