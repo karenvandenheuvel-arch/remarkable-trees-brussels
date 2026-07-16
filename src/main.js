@@ -63,6 +63,9 @@ distanceSlider.addEventListener('input', handleDistanceChange);
 const locateBtn = document.querySelector('#locate-btn');
 locateBtn.addEventListener('click', handleLocateClick);
 
+const resetFiltersBtn = document.querySelector('#reset-filters-btn');
+resetFiltersBtn.addEventListener('click', handleResetFilters);
+
 }
 
 function handleFavoriteClick(event) {
@@ -239,6 +242,7 @@ if (userLocation) {
 const errorLabel = document.querySelector('#location-error');
 updateLocationErrorMessage();
   
+document.querySelector('#reset-filters-btn').textContent = t.resetFilters;
 }
 
 function createSpeciesDropdown(trees) {
@@ -277,9 +281,34 @@ function applyFilters() {
     if(currentSort) {
     result = sortTrees(result, currentSort);
   }
+
+  const t = translations[currentLang];
+  document.querySelector('#tree-count').textContent = `${result.length} ${t.treeCount}`;
   renderTreeList(result, currentLang);
   observeLazyImages();
   renderMapMarkers(result, currentLang);
+}
+
+function handleResetFilters() {
+  currentSearch = '';
+  currentSort = '';
+  currentRarity = '';
+  currentSpecies = '';
+  showFavoritesOnly = false;
+  currentDistance = null;
+
+  document.querySelector('#search-input').value = '';
+  document.querySelector('#sort-select').value = '';
+  document.querySelector('#rarity-select').value = '';
+  document.querySelector('#species-select').value = '';
+  document.querySelector('#favorites-only-checkbox').checked = false;
+  document.querySelector('#distance-slider').value = 0;
+
+  const t = translations[currentLang];
+  const distanceValueLabel = document.querySelector('#distance-value');
+  distanceValueLabel.textContent = userLocation ? t.sliderHint : '';
+
+  applyFilters();
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
