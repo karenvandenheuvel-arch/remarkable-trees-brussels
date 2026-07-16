@@ -21,7 +21,14 @@ export const translations = {
     moreInfo: 'Meer info',
     girth: 'Omtrek',
     crownDiameter: 'Kruindiameter',
-    noResults: 'Geen bomen gevonden voor deze combinatie van filters.'
+    noResults: 'Geen bomen gevonden voor deze combinatie van filters.',
+    locateBtn: 'Gebruik mijn locatie',
+    maxDistanceLabel: 'Max afstand:',
+    sliderHint: 'Sleep om te filteren',
+    locationDenied: 'Je hebt geen toestemming gegeven voor locatietoegang.',
+    locationUnavailable: 'Je locatie kon niet worden bepaald.',
+    locationTimeout: 'Het ophalen van je locatie duurde te lang. Probeer opnieuw.',
+    locationError: 'Er ging iets mis bij het ophalen van je locatie.'
     },
     fr: {
     title: 'Arbres Remarquables de Bruxelles',
@@ -43,6 +50,13 @@ export const translations = {
     moreInfo: 'Plus d\'infos',
     girth: 'Circonférence',
     crownDiameter: 'Diamètre de la couronne',
-    noResults: 'Aucun arbre trouvé pour cette combinaison de filtres.'
+    noResults: 'Aucun arbre trouvé pour cette combinaison de filtres.',
+    locateBtn: 'Utiliser ma position',
+    maxDistanceLabel: 'Distance max :',
+    sliderHint: 'Faites glisser pour filtrer',
+    locationDenied: 'Vous n\'avez pas autorisé l\'accès à votre position.',
+    locationUnavailable: 'Votre position n\'a pas pu être déterminée.',
+    locationTimeout: 'La récupération de votre position a pris trop de temps. Réessayez.',
+    locationError: 'Une erreur est survenue lors de la récupération de votre position.'
     }
 }

@@ -18,6 +18,7 @@ let currentLang = storedLang ? storedLang : "nl";
 let currentView = 'list';
 let userLocation = null;
 let currentDistance = null;
+let lastLocationError = null;
 
 function initApp() {
 setLanguage();
@@ -133,15 +134,20 @@ function handleLanguageToggle(event) {
 }
 
 function handleDistanceChange(event) {
-  currentDistance = Number(event.target.value);
+  const value = Number(event.target.value);
+  currentDistance = value > 0 ? value : null;
 
+  const t= translations[currentLang];
   const distanceValueLabel = document.querySelector('#distance-value');
-  distanceValueLabel.textContent = `${currentDistance} m`;
+  distanceValueLabel.textContent = currentDistance? `${value} m` : t.sliderHint;
 
   applyFilters();
 }
 
 function handleLocateClick() {
+  lastLocationError = null;
+  updateLocationErrorMessage();
+
   navigator.geolocation.getCurrentPosition(
     position => {
       userLocation = {
@@ -151,11 +157,42 @@ function handleLocateClick() {
 
       const distanceSlider = document.querySelector('#distance-slider');
       distanceSlider.disabled = false;
+
+      const t = translations[currentLang];
+      const distanceValueLabel = document.querySelector('#distance-value');
+      distanceValueLabel.textContent = t.sliderHint;
     },
     error => {
-      console.error('Kon locatie niet ophalen:', error.message);
+      if (error.code === error.PERMISSION_DENIED) {
+        lastLocationError = 'denied';
+      } else if (error.code === error.POSITION_UNAVAILABLE) {
+        lastLocationError = 'unavailable';
+      } else if (error.code === error.TIMEOUT) {
+        lastLocationError = 'timeout';
+      } else {
+        lastLocationError = 'generic';
+      }
+
+      updateLocationErrorMessage();
     }
   );
+}
+
+function updateLocationErrorMessage() {
+  const t = translations[currentLang];
+  const errorLabel = document.querySelector('#location-error');
+
+  if (lastLocationError === 'denied') {
+    errorLabel.textContent = t.locationDenied;
+  } else if (lastLocationError === 'unavailable') {
+    errorLabel.textContent = t.locationUnavailable;
+  } else if (lastLocationError === 'timeout') {
+    errorLabel.textContent = t.locationTimeout;
+  } else if (lastLocationError === 'generic') {
+    errorLabel.textContent = t.locationError;
+  } else {
+    errorLabel.textContent = '';
+  }
 }
 
 function setLanguage() {
@@ -187,6 +224,20 @@ function setLanguage() {
   if (allTrees.length >0) {
     applyFilters();
   }
+
+const btn = document.querySelector('#locate-btn');
+
+btn.textContent = t.locateBtn;
+
+document.querySelector('#max-distance-label').textContent = t.maxDistanceLabel;
+
+const distanceValueLabel = document.querySelector('#distance-value');
+if (userLocation) {
+  distanceValueLabel.textContent = currentDistance ? `${currentDistance} m` : t.sliderHint;
+}
+
+const errorLabel = document.querySelector('#location-error');
+updateLocationErrorMessage();
   
 }
 
