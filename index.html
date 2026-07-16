@@ -32,6 +32,8 @@
         <option value="crown-desc">Kruin (grootste eerst)</option>
         <option value="crown-asc">Kruin (kleinste eerst)</option>
       </select>
+      <button type="button" id="toggle-filters-btn">Filters <span id="tree-count-inline"></span></button>
+      <div id="filter-wrapper">
       <select id="rarity-select">
         <option value="">Alle zeldzaamheid</option>
         <option value="0">Gewoon</option>
@@ -43,19 +45,24 @@
       </select>
       <div class="distance-filter">
         <button type="button" id="locate-btn">Gebruik mijn locatie</button>
-         <label for="distance-slider" id="max-distance-label">Max afstand:</label>
+        <div class="slider-row">
+        <label for="distance-slider" id="max-distance-label">Max afstand:</label>
         <input type="range" id="distance-slider" min="100" max="5000" step="100" value="1000" disabled>
         <span id="distance-value"></span>
+        </div> 
         <span id="location-error" class="error-message"></span>
       </div>
-      <label>
+      <label class="favorites-row">
         <input type="checkbox" id="favorites-only-checkbox">
         <span id="favorites-only-label">Alleen favorieten</span>
       </label>
+      <div class="reset-row">
       <button type="button" id="reset-favorites-btn">Reset favorieten</button>
       <button type="button" id="reset-filters-btn">Reset filters</button>
+    </div>
+    </div>
     </section>
-    <p id="tree-count"></p>
+
     <div id="map"></div>
     <div id="app"></div>
   </main>

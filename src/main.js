@@ -66,6 +66,9 @@ locateBtn.addEventListener('click', handleLocateClick);
 const resetFiltersBtn = document.querySelector('#reset-filters-btn');
 resetFiltersBtn.addEventListener('click', handleResetFilters);
 
+const filterToggle = document.querySelector('#toggle-filters-btn');
+filterToggle.addEventListener('click', handleFiltersToggle);
+
 }
 
 function handleFavoriteClick(event) {
@@ -134,6 +137,14 @@ function handleLanguageToggle(event) {
   if (!button) return;
   currentLang = button.dataset.lang;
   setLanguage();
+}
+
+function handleFiltersToggle() {
+  const filterWrapper = document.querySelector('#filter-wrapper');
+  filterWrapper.classList.toggle('open');
+    const filterToggle = document.querySelector('#toggle-filters-btn');
+  filterToggle.classList.toggle('open');
+
 }
 
 function handleDistanceChange(event) {
@@ -283,7 +294,7 @@ function applyFilters() {
   }
 
   const t = translations[currentLang];
-  document.querySelector('#tree-count').textContent = `${result.length} ${t.treeCount}`;
+  document.querySelector('#tree-count-inline').textContent = `(${result.length})`;
   renderTreeList(result, currentLang);
   observeLazyImages();
   renderMapMarkers(result, currentLang);

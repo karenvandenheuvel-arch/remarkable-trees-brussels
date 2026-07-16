@@ -27,6 +27,15 @@ header {
   color: white;
 }
 
+
+header h1 {
+  grid-area: title;
+  margin: 0;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+
 .view-toggle {
   grid-area: view;
   justify-self: start;
@@ -75,13 +84,6 @@ header {
   
 }
 
-header h1 {
-  grid-area: title;
-  margin: 0;
-  font-size: 1.1rem;
-  text-align: center;
-}
-
 main {
   flex: 1;
   display: flex;
@@ -89,6 +91,156 @@ main {
   min-height: 0;
 }
 
+#controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.35rem;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.85rem;
+}
+
+:root {
+  --text-muted: #767676;
+}
+
+#search-input::placeholder {
+  color: var(--text-muted);
+}
+
+#sort-select,
+#filter-wrapper select,
+.distance-filter #locate-btn,
+.distance-filter label,
+#distance-value,
+#favorites-only-label {
+  color: var(--text-muted);
+}
+
+#search-input,
+#sort-select,
+#toggle-filters-btn {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+#filter-wrapper {
+  display: none;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+#filter-wrapper.open {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+#filter-wrapper select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+#filter-wrapper select {
+  width: 100%;
+  min-width: 0;
+}
+.distance-filter,
+.favorites-row,
+.reset-row {
+  grid-column: 1 / -1;
+}
+
+#toggle-filters-btn {
+  background-color: #eef2ea;
+  border: 1px solid #d7ddd0;
+  color: #3b6d11;
+  font-weight: 600;
+}
+
+#toggle-filters-btn::after {
+  content: "▾";
+  display: inline-block;
+  margin-left: 0.4rem;
+  transition: transform 0.2s ease;
+}
+
+#toggle-filters-btn.open::after {
+  transform: rotate(180deg);
+}
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.distance-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.distance-filter #locate-btn {
+  align-self: flex-start;
+  width: auto;
+  font-weight: 400;
+  border-radius: 6px;
+   background-color: #eef2ea;
+  border: 1px solid #d7ddd0;
+  color: #4a5c40;
+  padding: 0.3rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+
+.distance-filter label {
+  font-size: 0.85rem;
+}
+
+.distance-filter input[type="range"] {
+  min-width: 50px;
+  width:65px;
+  accent-color:#2d4a1e;
+}
+
+input[type="checkbox"]{
+  accent-color:#2d4a1e;
+}
+
+#distance-value {
+  font-size: 0.6rem;
+  white-space: nowrap;
+}
+
+.reset-row {
+  display: flex;
+  gap: 0.5rem;
+   justify-content: flex-start;
+}
+
+.reset-row button {
+
+  background-color: #eef2ea;
+  border: 1px solid #d7ddd0;
+  color: #4a5c40;
+  padding: 0.3rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+#tree-count-inline {
+  font-weight: 400;
+  opacity: 0.75;
+}
 #app {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
