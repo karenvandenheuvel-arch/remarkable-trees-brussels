@@ -71,3 +71,31 @@ export function getTreeDisplayData(tree, lang) {
     photoUrl: tree.firstimage
   };
 }
+
+export function getDistanceInMeters(lat1, lon1, lat2, lon2) {
+  const metersPerDegreeLat = 111320;
+  const metersPerDegreeLon = 111320 * Math.cos(lat1 * (Math.PI / 180));
+
+  const deltaLat = (lat2 - lat1) * metersPerDegreeLat;
+  const deltaLon = (lon2 - lon1) * metersPerDegreeLon;
+
+  return Math.sqrt(deltaLat * deltaLat + deltaLon * deltaLon);
+}
+
+
+export function filterTreesByDistance(trees, userLocation, maxDistance) {
+  return trees.filter(tree => {
+    if (!tree.geo_point_2d) return false;
+
+    const distance = getDistanceInMeters(
+      userLocation.lat,
+      userLocation.lon,
+      tree.geo_point_2d.lat,
+      tree.geo_point_2d.lon
+    );
+
+    return distance <= maxDistance;
+  });
+}
+
+

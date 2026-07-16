@@ -2,7 +2,7 @@
 import './styles/style.css';
 import { fetchTrees } from './scripts/api.js';
 import { renderTreeList, observeLazyImages } from './scripts/render.js';
-import { filterTreesBySearch, sortTrees, filterTreesByRarity, filterTreesBySpecies, getUniqueSpecies, filterTreesByFavorites} from './scripts/filter.js';
+import { filterTreesBySearch, sortTrees, filterTreesByRarity, filterTreesBySpecies, getUniqueSpecies, filterTreesByFavorites, filterTreesByDistance} from './scripts/filter.js';
 import { toggleFavorite, clearFavorites } from './scripts/favorites.js';
 import {translations} from './scripts/translations.js';
 import { initMap, refreshMapSize, renderMapMarkers } from './scripts/map.js';
@@ -16,6 +16,8 @@ let showFavoritesOnly = false;
 const storedLang = localStorage.getItem("language");
 let currentLang = storedLang ? storedLang : "nl";
 let currentView = 'list';
+let userLocation = null;
+let currentDistance = null;
 
 function initApp() {
 setLanguage();
@@ -53,6 +55,12 @@ languageToggle.addEventListener('click', handleLanguageToggle);
 
 const viewToggle = document.querySelector('.view-toggle');
 viewToggle.addEventListener('click', handleViewToggle);
+
+const distanceSlider = document.querySelector('#distance-slider');
+distanceSlider.addEventListener('input', handleDistanceChange);
+
+const locateBtn = document.querySelector('#locate-btn');
+locateBtn.addEventListener('click', handleLocateClick);
 
 }
 
@@ -124,6 +132,32 @@ function handleLanguageToggle(event) {
   setLanguage();
 }
 
+function handleDistanceChange(event) {
+  currentDistance = Number(event.target.value);
+
+  const distanceValueLabel = document.querySelector('#distance-value');
+  distanceValueLabel.textContent = `${currentDistance} m`;
+
+  applyFilters();
+}
+
+function handleLocateClick() {
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      userLocation = {
+        lat: position.coords.latitude,
+        lon: position.coords.longitude
+      };
+
+      const distanceSlider = document.querySelector('#distance-slider');
+      distanceSlider.disabled = false;
+    },
+    error => {
+      console.error('Kon locatie niet ophalen:', error.message);
+    }
+  );
+}
+
 function setLanguage() {
   const t = translations[currentLang];
   document.documentElement.lang = currentLang;
@@ -184,6 +218,9 @@ function applyFilters() {
 
     if(showFavoritesOnly) {
     result = filterTreesByFavorites(result);
+  }
+    if (userLocation && currentDistance) {
+    result = filterTreesByDistance(result, userLocation, currentDistance);
   }
 
     if(currentSort) {
