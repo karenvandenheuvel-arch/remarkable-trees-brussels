@@ -122,6 +122,7 @@ main {
 #distance-value,
 #favorites-only-label {
   color: var(--text-muted);
+  font-size: 0.7rem;
 }
 
 #search-input,
@@ -158,6 +159,12 @@ main {
 .distance-filter,
 .favorites-and-reset {
   grid-column: 1 / -1;
+}
+
+.favorites-row {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
 #toggle-filters-btn {
@@ -232,21 +239,18 @@ input[type="checkbox"]{
   gap: 0.5rem;
 }
 
-.reset-row {
-  display: flex;
-  gap: 0.5rem;
-   justify-content: flex-start;
+.reset-btn {
+  background: none;
+  border: none;
+  color: #6b6b6b;
+  padding: 0.3rem 0.1rem;
+  font-size: 0.7rem;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
-.reset-row button {
-
-  background-color: #eef2ea;
-  border: 1px solid #d7ddd0;
-  color: #4a5c40;
-  padding: 0.3rem;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  cursor: pointer;
+.reset-btn:hover {
+  color: #3b6d11;
 }
 
 #tree-count-inline {
@@ -552,11 +556,10 @@ color: #3b6d11;
   flex: 0 1 180px;
 }
 
-  .distance-filter,
-  .favorites-row,
-  .reset-row {
-    flex: 0 0 auto;
-  }
+.distance-filter,
+.favorites-and-reset {
+  flex: 0 0 auto;
+}
 
     #tree-count-inline {
     display: none;
