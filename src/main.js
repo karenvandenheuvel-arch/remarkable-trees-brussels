@@ -15,7 +15,8 @@ let currentSpecies ='';
 let showFavoritesOnly = false;
 const storedLang = localStorage.getItem("language");
 let currentLang = storedLang ? storedLang : "nl";
-let currentView = 'list';
+const storedView = localStorage.getItem('view');
+let currentView = storedView ? storedView : 'list';
 let userLocation = null;
 let currentDistance = null;
 let lastLocationError = null;
@@ -69,6 +70,16 @@ resetFiltersBtn.addEventListener('click', handleResetFilters);
 const filterToggle = document.querySelector('#toggle-filters-btn');
 filterToggle.addEventListener('click', handleFiltersToggle);
 
+if (currentView === 'map') {
+  document.querySelector('#app').classList.add('hidden');
+  document.querySelector('#map').classList.add('visible');
+
+  document.querySelectorAll('.view-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.view === currentView);
+  });
+  refreshMapSize();
+}
+
 }
 
 function handleFavoriteClick(event) {
@@ -114,6 +125,7 @@ function handleViewToggle(event) {
   if (!button) return;
 
   currentView = button.dataset.view;
+    localStorage.setItem('view', currentView);
 
   document.querySelectorAll('.view-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.view === currentView);
@@ -254,6 +266,9 @@ const errorLabel = document.querySelector('#location-error');
 updateLocationErrorMessage();
   
 document.querySelector('#reset-filters-btn').textContent = t.resetFilters;
+document.querySelector('[data-view="list"]').textContent = t.viewList;
+document.querySelector('[data-view="map"]').textContent = t.viewMap;
+document.querySelector('#filters-label').textContent = t.filtersLabel;
 }
 
 function createSpeciesDropdown(trees) {
@@ -294,7 +309,8 @@ function applyFilters() {
   }
 
   const t = translations[currentLang];
-  document.querySelector('#tree-count-inline').textContent = `(${result.length})`;
+document.querySelector('#tree-count-inline').textContent = `(${result.length})`;
+document.querySelector('#tree-count').textContent = `${result.length} ${t.treeCount}`;
   renderTreeList(result, currentLang);
   observeLazyImages();
   renderMapMarkers(result, currentLang);

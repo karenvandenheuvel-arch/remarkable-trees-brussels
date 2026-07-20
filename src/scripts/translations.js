@@ -30,7 +30,10 @@ export const translations = {
     locationTimeout: 'Het ophalen van je locatie duurde te lang. Probeer opnieuw.',
     locationError: 'Er ging iets mis bij het ophalen van je locatie.',
       resetFilters: 'Reset filters',
-       treeCount: 'bomen'
+       treeCount: 'bomen',
+        viewList: 'Lijst',
+  viewMap: 'Kaart',
+    filtersLabel: 'Filters '
     },
     fr: {
     title: 'Arbres Remarquables de Bruxelles',
@@ -61,6 +64,9 @@ export const translations = {
     locationTimeout: 'La récupération de votre position a pris trop de temps. Réessayez.',
     locationError: 'Une erreur est survenue lors de la récupération de votre position.',
       resetFilters: 'Réinitialiser les filtres',
-       treeCount: 'arbres'
+       treeCount: 'arbres',
+         viewList: 'Liste',
+  viewMap: 'Carte',
+   filtersLabel: 'Filtres '
     }
 }

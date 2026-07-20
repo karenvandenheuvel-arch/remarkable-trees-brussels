@@ -8,6 +8,12 @@ import { getTreeDisplayData } from './filter.js';
 let map;
 let markersGroup;
 
+const treeMarkerIcon = L.divIcon({
+  html: TREE_ICON_SVG,
+  className: 'tree-marker-icon',
+  iconSize: [24, 28],
+  iconAnchor: [12, 14]
+});
 
 export function initMap() {
     map = L.map('map').setView([50.8503, 4.3517], 12);
@@ -31,7 +37,9 @@ export function renderMapMarkers(trees, lang) {
   trees.forEach(tree => {
     if (!tree.geo_point_2d) return;
 
-    const marker = L.marker([tree.geo_point_2d.lat, tree.geo_point_2d.lon]);
+    const marker = L.marker([tree.geo_point_2d.lat, tree.geo_point_2d.lon], {
+      icon: treeMarkerIcon
+    });
     markersGroup.addLayer(marker);
     marker.bindPopup(getPopupHtml(tree, lang), { maxWidth: 220 });
   });
