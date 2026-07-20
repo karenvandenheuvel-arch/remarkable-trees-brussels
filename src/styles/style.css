@@ -242,7 +242,7 @@ input[type="checkbox"]{
 .reset-btn {
   background: none;
   border: none;
-  color: #6b6b6b;
+  color: #828282;
   padding: 0.3rem 0.1rem;
   font-size: 0.7rem;
   cursor: pointer;
@@ -568,7 +568,7 @@ color: #3b6d11;
   #tree-count {
     display: block;
     padding: 0.2rem 2rem;
-    margin-bottom: 0;
+    margin: 5px auto 5px 0;
     font-size: 0.9rem;
     font-weight: 600;
     color: #3b6d11;
