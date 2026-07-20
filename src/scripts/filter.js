@@ -11,54 +11,53 @@ export function filterTreesBySearch(trees, searchTerm) {
 }
 
 export function filterTreesByRarity(trees, rarity) {
-return trees.filter(tree => rarity === tree.rarete );
+  return trees.filter(tree => rarity === tree.rarete);
 }
 
 export function filterTreesBySpecies(trees, species) {
-  console.log('zoek naar:', JSON.stringify(species));
-  console.log('bestaande waarden:', trees.slice(0, 5).map(t => JSON.stringify(t.nom_la)));
-return trees.filter(tree => species === tree.nom_la );
+  return trees.filter(tree => species === tree.nom_la);
 }
 
+// Haalt alle unieke soortnamen op ui de data
 export function getUniqueSpecies(trees) {
-const uniqueSpecies = [...new Set(trees.map(tree => tree.nom_la))];
-return uniqueSpecies.sort((a,b) => a.localeCompare(b));
+  const uniqueSpecies = [...new Set(trees.map(tree => tree.nom_la))];
+  return uniqueSpecies.sort((a, b) => a.localeCompare(b));
 }
 
 export function filterTreesByFavorites(trees) {
   return trees.filter(tree => isFavorite(tree.id_arbres_cms));
 }
 
-export function sortTrees(trees, sortOption) { 
-  const sorted = trees.map(function(tree) {  // kopie van trees
+export function sortTrees(trees, sortOption) {
+  // Kopie van trees zodat de allTrees-array niet gemuteerd wordt 
+  const sorted = trees.map(function (tree) {
     return tree;
   });
 
   if (sortOption === 'name-asc') {
     sorted.sort((a, b) => a.nom_nl?.localeCompare(b.nom_nl));
-    } else if (sortOption === 'name-desc') {
+  } else if (sortOption === 'name-desc') {
     sorted.sort((a, b) => b.nom_nl?.localeCompare(a.nom_nl));
-    } else if (sortOption === 'girth-desc') {
-    sorted.sort((a, b) => b.circonference - a.circonference); 
-     } else if (sortOption === 'girth-asc') {
-    sorted.sort((a, b) => a.circonference - b.circonference); 
-     } else if (sortOption === 'crown-desc') {
-    sorted.sort((a, b) => b.diametre_cime - a.diametre_cime); 
-     } else if (sortOption === 'crown-asc') {
-    sorted.sort((a, b) => a.diametre_cime - b.diametre_cime); 
+  } else if (sortOption === 'girth-desc') {
+    sorted.sort((a, b) => b.circonference - a.circonference);
+  } else if (sortOption === 'girth-asc') {
+    sorted.sort((a, b) => a.circonference - b.circonference);
+  } else if (sortOption === 'crown-desc') {
+    sorted.sort((a, b) => b.diametre_cime - a.diametre_cime);
+  } else if (sortOption === 'crown-asc') {
+    sorted.sort((a, b) => a.diametre_cime - b.diametre_cime);
   }
-
   return sorted;
-
 }
 
 export function getRarityLabel(rarete, lang) {
   const t = translations[lang];
- if (rarete === '1') return t.rarityRare;
+  if (rarete === '1') return t.rarityRare;
   if (rarete === '0.5') return t.rarityNotable;
   return t.rarityCommon;
 }
 
+// Taalafhankelijke velden samenzetten zodat renderTreeList en getPopupHtml deze logica kunnen gebruiken
 export function getTreeDisplayData(tree, lang) {
   const t = translations[lang];
 
@@ -72,6 +71,7 @@ export function getTreeDisplayData(tree, lang) {
   };
 }
 
+// Vereenvoudigde afstandsberekening
 export function getDistanceInMeters(lat1, lon1, lat2, lon2) {
   const metersPerDegreeLat = 111320;
   const metersPerDegreeLon = 111320 * Math.cos(lat1 * (Math.PI / 180));
@@ -81,7 +81,6 @@ export function getDistanceInMeters(lat1, lon1, lat2, lon2) {
 
   return Math.sqrt(deltaLat * deltaLat + deltaLon * deltaLon);
 }
-
 
 export function filterTreesByDistance(trees, userLocation, maxDistance) {
   return trees.filter(tree => {
@@ -97,5 +96,3 @@ export function filterTreesByDistance(trees, userLocation, maxDistance) {
     return distance <= maxDistance;
   });
 }
-
-

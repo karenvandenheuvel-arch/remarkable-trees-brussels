@@ -8,6 +8,7 @@ import { getTreeDisplayData } from './filter.js';
 let map;
 let markersGroup;
 
+// Hergebruik boomicoon favorieten en placeholder als marker op de kaart
 const treeMarkerIcon = L.divIcon({
   html: TREE_ICON_SVG,
   className: 'tree-marker-icon',
@@ -16,21 +17,23 @@ const treeMarkerIcon = L.divIcon({
 });
 
 export function initMap() {
-    map = L.map('map').setView([50.8503, 4.3517], 12);
+  map = L.map('map').setView([50.8503, 4.3517], 12);
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap'
   }).addTo(map);
 
   markersGroup = L.layerGroup().addTo(map);
 }
 
+// Wordt aangeroepen telkens als kaart zichtbaar wordt, want leaflet berekent afmetingen verkeerd
 export function refreshMapSize() {
   if (map) {
     map.invalidateSize();
   }
 }
 
+// Bouwt markers op vanaf gefilterde resultaat
 export function renderMapMarkers(trees, lang) {
   markersGroup.clearLayers();
 
@@ -45,7 +48,8 @@ export function renderMapMarkers(trees, lang) {
   });
 }
 
-export function getPopupHtml(tree, lang) {
+// Compacte versie van boominfo in de popup
+function getPopupHtml(tree, lang) {
   const data = getTreeDisplayData(tree, lang);
 
   const imageHtml = data.photoUrl

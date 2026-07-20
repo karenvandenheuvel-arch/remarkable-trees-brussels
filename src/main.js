@@ -2,87 +2,91 @@
 import './styles/style.css';
 import { fetchTrees } from './scripts/api.js';
 import { renderTreeList, observeLazyImages } from './scripts/render.js';
-import { filterTreesBySearch, sortTrees, filterTreesByRarity, filterTreesBySpecies, getUniqueSpecies, filterTreesByFavorites, filterTreesByDistance} from './scripts/filter.js';
+import { filterTreesBySearch, sortTrees, filterTreesByRarity, filterTreesBySpecies, getUniqueSpecies, filterTreesByFavorites, filterTreesByDistance } from './scripts/filter.js';
 import { toggleFavorite, clearFavorites } from './scripts/favorites.js';
-import {translations} from './scripts/translations.js';
+import { translations } from './scripts/translations.js';
 import { initMap, refreshMapSize, renderMapMarkers } from './scripts/map.js';
 
+// Alle boomdata
 let allTrees = [];
+
+// Actieve filter/sorterstatussen
 let currentSearch = '';
 let currentSort = '';
-let currentRarity ='';
-let currentSpecies ='';
+let currentRarity = '';
+let currentSpecies = '';
 let showFavoritesOnly = false;
+
+// Voorkeuren
 const storedLang = localStorage.getItem("language");
 let currentLang = storedLang ? storedLang : "nl";
 const storedView = localStorage.getItem('view');
 let currentView = storedView ? storedView : 'list';
+
+// Locatiegegevens voor afstandsfilter
 let userLocation = null;
 let currentDistance = null;
 let lastLocationError = null;
 
 function initApp() {
-setLanguage();
-initMap();
-fetchTrees().then(trees => {
-  allTrees = trees;
-  createSpeciesDropdown(allTrees);
-  applyFilters();
-
-});
-
-const searchInput = document.querySelector('#search-input');
-searchInput.addEventListener('input',handleSearchInput);
-
-const sortSelect = document.querySelector('#sort-select');
-sortSelect.addEventListener('change', handleSortChange);
-
-const raritySelect = document.querySelector('#rarity-select');
-raritySelect.addEventListener('change', handleRarityChange);
-
-const speciesSelect = document.querySelector('#species-select');
-speciesSelect.addEventListener('change', handleSpeciesChange);
-
-const favoritesCheckbox = document.querySelector('#favorites-only-checkbox');
-favoritesCheckbox.addEventListener('change',handleFavoritesOnlyChange );
-
-const resetFavoritesBtn = document.querySelector('#reset-favorites-btn');
-resetFavoritesBtn.addEventListener('click', handleResetFavorites);
-
-const appContainer = document.querySelector('#app');
-appContainer.addEventListener('click', handleFavoriteClick);
-
-const languageToggle = document.querySelector('.language-toggle');
-languageToggle.addEventListener('click', handleLanguageToggle);
-
-const viewToggle = document.querySelector('.view-toggle');
-viewToggle.addEventListener('click', handleViewToggle);
-
-const distanceSlider = document.querySelector('#distance-slider');
-distanceSlider.addEventListener('input', handleDistanceChange);
-
-const locateBtn = document.querySelector('#locate-btn');
-locateBtn.addEventListener('click', handleLocateClick);
-
-const resetFiltersBtn = document.querySelector('#reset-filters-btn');
-resetFiltersBtn.addEventListener('click', handleResetFilters);
-
-const filterToggle = document.querySelector('#toggle-filters-btn');
-filterToggle.addEventListener('click', handleFiltersToggle);
-
-if (currentView === 'map') {
-  document.querySelector('#app').classList.add('hidden');
-  document.querySelector('#map').classList.add('visible');
-
-  document.querySelectorAll('.view-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.view === currentView);
+  // -- Taal en data ophalen --
+  setLanguage();
+  initMap();
+  fetchTrees().then(trees => {
+    allTrees = trees;
+    createSpeciesDropdown(allTrees);
+    applyFilters();
   });
-  refreshMapSize();
+
+  // -- Event listeners --
+  const searchInput = document.querySelector('#search-input');
+  searchInput.addEventListener('input', handleSearchInput);
+
+  const sortSelect = document.querySelector('#sort-select');
+  sortSelect.addEventListener('change', handleSortChange);
+
+  const raritySelect = document.querySelector('#rarity-select');
+  raritySelect.addEventListener('change', handleRarityChange);
+
+  const speciesSelect = document.querySelector('#species-select');
+  speciesSelect.addEventListener('change', handleSpeciesChange);
+
+  const favoritesCheckbox = document.querySelector('#favorites-only-checkbox');
+  favoritesCheckbox.addEventListener('change', handleFavoritesOnlyChange);
+
+  const resetFavoritesBtn = document.querySelector('#reset-favorites-btn');
+  resetFavoritesBtn.addEventListener('click', handleResetFavorites);
+
+  // Event delegation: één listener voor alle favorieten-knoppen
+  const appContainer = document.querySelector('#app');
+  appContainer.addEventListener('click', handleFavoriteClick);
+
+  const languageToggle = document.querySelector('.language-toggle');
+  languageToggle.addEventListener('click', handleLanguageToggle);
+
+  const viewToggle = document.querySelector('.view-toggle');
+  viewToggle.addEventListener('click', handleViewToggle);
+
+  const distanceSlider = document.querySelector('#distance-slider');
+  distanceSlider.addEventListener('input', handleDistanceChange);
+
+  const locateBtn = document.querySelector('#locate-btn');
+  locateBtn.addEventListener('click', handleLocateClick);
+
+  const resetFiltersBtn = document.querySelector('#reset-filters-btn');
+  resetFiltersBtn.addEventListener('click', handleResetFilters);
+
+  const filterToggle = document.querySelector('#toggle-filters-btn');
+  filterToggle.addEventListener('click', handleFiltersToggle);
+
+  // -- Weergaave herstellen op basis van voorkeur -- 
+  applyViewState();
 }
 
-}
+
 
 function handleFavoriteClick(event) {
+  // closest() vangt klikken op SVG binnen in de knop op
   const button = event.target.closest('.favorite-icon');
   if (!button) return;
   const treeId = button.dataset.treeId;
@@ -120,13 +124,9 @@ function handleSpeciesChange(event) {
   applyFilters();
 }
 
-function handleViewToggle(event) {
-  const button = event.target.closest('.view-btn');
-  if (!button) return;
-
-  currentView = button.dataset.view;
-    localStorage.setItem('view', currentView);
-
+// Past de huidige currentView toe op de DOM: welke view zichtbaar is, welke knop actief,
+// en herbereken de kaartgrootte indien nodig. Wordt aangeroepen bij opstarten en bij toggle.
+function applyViewState() {
   document.querySelectorAll('.view-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.view === currentView);
   });
@@ -144,6 +144,15 @@ function handleViewToggle(event) {
   }
 }
 
+function handleViewToggle(event) {
+  const button = event.target.closest('.view-btn');
+  if (!button) return;
+
+  currentView = button.dataset.view;
+  localStorage.setItem('view', currentView);
+  applyViewState();
+}
+
 function handleLanguageToggle(event) {
   const button = event.target.closest('.lang-btn');
   if (!button) return;
@@ -154,7 +163,7 @@ function handleLanguageToggle(event) {
 function handleFiltersToggle() {
   const filterWrapper = document.querySelector('#filter-wrapper');
   filterWrapper.classList.toggle('open');
-    const filterToggle = document.querySelector('#toggle-filters-btn');
+  const filterToggle = document.querySelector('#toggle-filters-btn');
   filterToggle.classList.toggle('open');
 
 }
@@ -163,9 +172,9 @@ function handleDistanceChange(event) {
   const value = Number(event.target.value);
   currentDistance = value > 0 ? value : null;
 
-  const t= translations[currentLang];
+  const t = translations[currentLang];
   const distanceValueLabel = document.querySelector('#distance-value');
-  distanceValueLabel.textContent = currentDistance? `${value} m` : t.sliderHint;
+  distanceValueLabel.textContent = currentDistance ? `${value} m` : t.sliderHint;
 
   applyFilters();
 }
@@ -221,10 +230,11 @@ function updateLocationErrorMessage() {
   }
 }
 
+// Werkt alle statische tekst bij naar de huidige taal: wordt aangeroepen bij opstarten en taalwissel
 function setLanguage() {
   const t = translations[currentLang];
   document.documentElement.lang = currentLang;
-    document.querySelectorAll('.lang-btn').forEach(btn => {
+  document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === currentLang);
   });
   document.querySelector('h1').textContent = t.title;
@@ -246,29 +256,29 @@ function setLanguage() {
   document.querySelector('#species-select').options[0].textContent = t.speciesAll;
   document.querySelector('#favorites-only-label').textContent = t.favoritesOnly;
   document.querySelector('#reset-favorites-btn').textContent = t.resetFavorites;
-  localStorage.setItem("language",currentLang);
-  if (allTrees.length >0) {
+  localStorage.setItem("language", currentLang);
+
+  // Enkel herrenderen als er al data is
+  if (allTrees.length > 0) {
     applyFilters();
   }
 
-const btn = document.querySelector('#locate-btn');
+  const btn = document.querySelector('#locate-btn');
+  btn.textContent = t.locateBtn;
 
-btn.textContent = t.locateBtn;
+  document.querySelector('#max-distance-label').textContent = t.maxDistanceLabel;
 
-document.querySelector('#max-distance-label').textContent = t.maxDistanceLabel;
+  const distanceValueLabel = document.querySelector('#distance-value');
+  if (userLocation) {
+    distanceValueLabel.textContent = currentDistance ? `${currentDistance} m` : t.sliderHint;
+  }
 
-const distanceValueLabel = document.querySelector('#distance-value');
-if (userLocation) {
-  distanceValueLabel.textContent = currentDistance ? `${currentDistance} m` : t.sliderHint;
-}
+  updateLocationErrorMessage();
 
-const errorLabel = document.querySelector('#location-error');
-updateLocationErrorMessage();
-  
-document.querySelector('#reset-filters-btn').textContent = t.resetFilters;
-document.querySelector('[data-view="list"]').textContent = t.viewList;
-document.querySelector('[data-view="map"]').textContent = t.viewMap;
-document.querySelector('#filters-label').textContent = t.filtersLabel;
+  document.querySelector('#reset-filters-btn').textContent = t.resetFilters;
+  document.querySelector('[data-view="list"]').textContent = t.viewList;
+  document.querySelector('[data-view="map"]').textContent = t.viewMap;
+  document.querySelector('#filters-label').textContent = t.filtersLabel;
 }
 
 function createSpeciesDropdown(trees) {
@@ -283,34 +293,36 @@ function createSpeciesDropdown(trees) {
   });
 }
 
+
+// Start altijd vanaf volledige, ongewijzigde allTrees-lijst,
+// past vervolgens alle filters toe, dan sortering, en dan rendering van lijst en kaart
 function applyFilters() {
   let result = allTrees;
   if (currentSearch) {
     result = filterTreesBySearch(result, currentSearch);
   }
-  // andere filters
 
-   if(currentRarity) {
+  if (currentRarity) {
     result = filterTreesByRarity(result, currentRarity);
   }
-    if(currentSpecies) {
+  if (currentSpecies) {
     result = filterTreesBySpecies(result, currentSpecies);
   }
 
-    if(showFavoritesOnly) {
+  if (showFavoritesOnly) {
     result = filterTreesByFavorites(result);
   }
-    if (userLocation && currentDistance) {
+  if (userLocation && currentDistance) {
     result = filterTreesByDistance(result, userLocation, currentDistance);
   }
 
-    if(currentSort) {
+  if (currentSort) {
     result = sortTrees(result, currentSort);
   }
 
   const t = translations[currentLang];
-document.querySelector('#tree-count-inline').textContent = `(${result.length})`;
-document.querySelector('#tree-count').textContent = `${result.length} ${t.treeCount}`;
+  document.querySelector('#tree-count-inline').textContent = `(${result.length})`;
+  document.querySelector('#tree-count').textContent = `${result.length} ${t.treeCount}`;
   renderTreeList(result, currentLang);
   observeLazyImages();
   renderMapMarkers(result, currentLang);
