@@ -19,9 +19,10 @@ export function filterTreesBySpecies(trees, species) {
   return trees.filter(tree => species === tree.nom_la);
 }
 
-// Haalt alle unieke soortnamen op ui de data
+// Haalt alle unieke soortnamen op uit de data (leeg/ontbrekende namen eruit gefilterd)
 export function getUniqueSpecies(trees) {
-  const uniqueSpecies = [...new Set(trees.map(tree => tree.nom_la))];
+  const species = trees.map(tree => tree.nom_la).filter(Boolean);
+  const uniqueSpecies = [...new Set(species)];
   return uniqueSpecies.sort((a, b) => a.localeCompare(b));
 }
 
