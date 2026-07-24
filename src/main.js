@@ -79,11 +79,9 @@ function initApp() {
   const filterToggle = document.querySelector('#toggle-filters-btn');
   filterToggle.addEventListener('click', handleFiltersToggle);
 
-  // -- Weergaave herstellen op basis van voorkeur -- 
+  // -- Weergave herstellen op basis van voorkeur --
   applyViewState();
 }
-
-
 
 function handleFavoriteClick(event) {
   // closest() vangt klikken op SVG binnen in de knop op
@@ -293,13 +291,12 @@ function createSpeciesDropdown(trees) {
   });
 }
 
-
 // Start altijd vanaf volledige, ongewijzigde allTrees-lijst,
 // past vervolgens alle filters toe, dan sortering, en dan rendering van lijst en kaart
 function applyFilters() {
   let result = allTrees;
   if (currentSearch) {
-    result = filterTreesBySearch(result, currentSearch);
+    result = filterTreesBySearch(result, currentSearch, currentLang);
   }
 
   if (currentRarity) {

@@ -2,12 +2,13 @@
 import { isFavorite } from './favorites.js';
 import { translations } from './translations.js';
 
-export function filterTreesBySearch(trees, searchTerm) {
+export function filterTreesBySearch(trees, searchTerm, lang) {
   const term = searchTerm.toLowerCase();
 
-  return trees.filter(tree =>
-    tree.nom_nl?.toLowerCase().includes(term)
-  );
+  return trees.filter(tree => {
+    const name = lang === 'fr' ? tree.nom_fr : tree.nom_nl;
+    return name?.toLowerCase().includes(term);
+  });
 }
 
 export function filterTreesByRarity(trees, rarity) {
