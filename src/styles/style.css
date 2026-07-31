@@ -106,7 +106,7 @@ main {
   gap: 0.3rem;
   padding: 0.35rem;
   background-color: white;
-  border-bottom: 1px solid #e0e0e0;
+
   font-size: 0.85rem;
 }
 
@@ -422,6 +422,8 @@ input[type="checkbox"] {
 
 #tree-count {
   display: none;
+  border-top: 1px solid #e0e0e0;
+  width: 100%;
 }
 
 .tree-marker-icon svg.tree-icon {
@@ -522,7 +524,6 @@ input[type="checkbox"] {
     gap: 0.6rem;
     padding: 0.75rem 2rem;
     flex-direction: row;
-    border-bottom: none;
   }
 
   #sort-select,
@@ -574,15 +575,26 @@ input[type="checkbox"] {
   #tree-count {
     display: block;
     padding: 0.2rem 2rem;
-    padding-bottom: 0.4rem;
-    margin: 0;
+    margin: 0 auto 5px 0;
     font-size: 0.9rem;
     font-weight: 600;
     color: #3b6d11;
     text-align: left;
-    background-color: white;
+    background-color:  #f7f5f0;
     border-bottom: none;
+  }
+
+  .map-view#tree-count  {
+    background-color: white;
     width: 100%;
+    padding: 0.2rem 2rem;
+    padding-bottom: 0.4rem;
+    margin: 0;
+    border-top: none;
+  }
+
+  .map-view#controls {
+    padding-bottom: 0;
   }
   
 }

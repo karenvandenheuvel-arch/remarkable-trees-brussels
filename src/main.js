@@ -131,14 +131,20 @@ function applyViewState() {
 
   const mapContainer = document.querySelector('#map');
   const listContainer = document.querySelector('#app');
+  const treeCountContainer = document.querySelector('#tree-count');
+  const controlsContainer = document.querySelector('#controls');
 
   if (currentView === 'map') {
     listContainer.classList.add('hidden');
     mapContainer.classList.add('visible');
+    treeCountContainer.classList.add('map-view');
+    controlsContainer.classList.add('map-view');
     refreshMapSize();
   } else {
     listContainer.classList.remove('hidden');
     mapContainer.classList.remove('visible');
+    treeCountContainer.classList.remove('map-view');
+    controlsContainer.classList.remove('map-view');
   }
 }
 
