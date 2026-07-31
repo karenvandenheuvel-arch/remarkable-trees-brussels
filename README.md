@@ -2,11 +2,11 @@
 
 ## 1. Projectbeschrijving
 
-**Opmerkelijke Bomen in Brussel** is een interactieve single-page webapplicatie waarmee gebruikers bijzondere bomen in het Brussels Hoofdstedelijk Gewest[^1] kunnen verkennen. De app toont zowel de kenmerken van elke boom (lijstweergave) als de locatie ervan (kaartweergave via Leaflet). Via zoek-, sorteer- en filteropties kunnen gebruikers snel navigeren doorheen de dataset. Favoriete bomen kunnen worden opgeslagen, en de interface is beschikbaar in het Nederlands en het Frans.
+**Opmerkelijke Bomen in Brussel** is een interactieve single-page webapplicatie waarmee gebruikers bijzondere bomen in het Brussels Hoofdstedelijk Gewest kunnen verkennen. De app toont zowel de kenmerken van elke boom (lijstweergave) als de locatie ervan (kaartweergave via Leaflet). Via zoek-, sorteer- en filteropties kunnen gebruikers snel navigeren doorheen de dataset. Favoriete bomen kunnen worden opgeslagen, en de interface is beschikbaar in het Nederlands en het Frans.
 
 De data wordt opgehaald via de Open Data Brussels API en de applicatie is gebouwd met Vite en vanilla JavaScript.
 
-[^1]bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (vb. Vorst) lijken voor te komen bij de opgehaalde bomen. De reden hiervoor is niet gekend: mogelijk gaat het om een beperking van de dataset zelf, of vallen bepaalde gemeenten buiten de scope van dit project.
+Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (vb. Vorst) lijken voor te komen bij de opgehaalde bomen. De reden hiervoor is niet gekend: mogelijk gaat het om een beperking van de dataset zelf, of vallen bepaalde gemeenten buiten de scope van dit project.
 
 ## 2. Functionele vereisten
 
@@ -326,30 +326,91 @@ Deze applicatie gebruikt geen API-key (de Open Data Brussels API is publiek toeg
 
 ## 6. Screenshots
 
-- Lijstweergave — mobiel (375px)
-- Lijstweergave — tablet (640px+)
-- Lijstweergave — desktop (1024px+)
-![Lijstweergave desktop](screenshots/Lijstweergave_desktop.png)
-- Kaartweergave met zichtbare markers en een geopende popup
-- Ingeklapt vs. uitgeklapt filterpaneel — mobiel/tablet
-- Actieve filters/sortering in gebruik (bv. gecombineerde zoek- + soortfilter)
-- Afstandsfilter met slider, na locatietoestemming
-- Favorieten — lijst met favorieten-only toggle actief
-- Taalwissel — dezelfde weergave in NL en FR naast elkaar
+### Lijstweergave
 
-  | Nederlands | Français |
-  |---|---|
-  | ![NL]() | ![FR]() |
-- [ ] "Geen resultaten"-melding bij een lege filtercombinatie
-- [ ] Geolocatie-foutmelding (bv. bij geweigerde toestemming)
+- Mobiel (375px)
+
+<img src="screenshots/Lijstweergave_mobiel.png" width="500">
+
+- Tablet (640px+)
+
+<img src="screenshots/Lijstweergave_tablet.png" width="700">
+
+- Desktop (1024px+)
+
+<img src="screenshots/Lijstweergave_desktop.png" width="1500">
+
+### Kaartweergave 
+
+- Mobiel (375px)
+
+<img src="screenshots/Kaartweergave_mobiel.png" width="500">
+
+- Tablet (640px+)
+
+<img src="screenshots/Kaartweergave_tablet.png" width="700">
+
+- Desktop (1024px+)
+
+<img src="screenshots/Kaartweergave_desktop.png" width="1500">
+
+- Mobiel met marker popup
+
+<img src="screenshots/Kaartweergave_popup.png" width="500">
+
+### Ingeklapt vs. uitgeklapt filterpaneel — mobiel
+
+| Ingeklapt | Uitgeklapt |
+|---|---|
+| <img src="screenshots/Filters_ingeklapt.png" width="500"> | <img src="screenshots/Filters_uitgeklapt.png" width="500"> |
+
+### Actieve filters/sortering — gecombineerd voorbeeld: beuk & zeldzaam
+
+<img src="screenshots/Filters_actief.png" width="1500">
+
+### Actieve filters/sortering — gecombineerd voorbeeld: sorteren op omtrek & soort Ginkgo biloba
+
+<img src="screenshots/Sorteren_soortselectie.png" width="1500">
+
+### Afstandsfilter — actief na locatietoestemming
+
+<img src="screenshots/afstandsfilter.png" width="500">
+
+### Favorieten — "Alleen favorieten"-filter actief
+
+<img src="screenshots/favorieten.png" width="1500">
+
+### Taalwissel — NL/FR
+
+Nederlands:
+
+<img src="screenshots/taal_nl.png" width="1500">
+
+Français:
+
+<img src="screenshots/taal_fr.png" width="1500">
+
+### "Geen resultaten"-melding (in FR)
+
+<img src="screenshots/Geen_resultaten.png" width="500">
+
+### Gebruikerslocatie op de kaart
+
+<img src="screenshots/Gebruiker_locatie.png" width="1500">
+
+### Geolocatie-foutmelding
+
+<img src="screenshots/Geolocatie_foutmelding.png" width="500">
 
 ## 7. Bronnen
 
 ### 7.1 Gebruikte bronnen
 
 - Cursusmateriaal Web Advanced (modules 0–9) — basis voor DOM-manipulatie, moderne JavaScript, fetch/JSON, LocalStorage, Observer API, CSS Grid/Flexbox en Vite; zie sectie 3.7 voor de concepten die hierop een uitbreiding vormen
-- [Open Data Brussels](https://opendata.brussels.be/pages/home) — dataportaal en API-documentatie (Opendatasoft v2.1)
-- [Leaflet documentatie](https://leafletjs.com/reference.html) — officiële referentie voor de kaartweergave, markers en popups
+- [Open Data Brussels](https://opendata.brussels.be/pages/home) - dataportaal en API-documentatie (Opendatasoft v2.1)
+- [Leaflet documentatie](https://leafletjs.com/reference.html) - officiële referentie voor de kaartweergave, markers en popups
+- [MDN Web Docs](https://developer.mozilla.org/en-US/) - gebruikt voor punctuele css opzoekingen zoals filter: hue-rotate()
+- [CartoDB](https://carto.com/blog/new-voyager-basemap/) - online gezocht naar een iets meer 'cleane' mapweergave
 
 ### 7.2 AI chatlog
 
@@ -380,12 +441,13 @@ Links naar de conversaties:
   - keuze mobile-first aanpak, popup restyling in de kaarview
 - Code opkuisen en optimaliseren: https://claude.ai/share/8bf911db-37ce-4f08-bfa1-bd6f5dbde00c
   - elk bestand opnieuw bekeken; dode code weggehaald, formatting en structuur verbeterd, console.log's weggehaald
+- Marker voor gebruikerslocatie: https://claude.ai/share/d47d3ad8-4e19-425c-a28f-f32121e6847a
+  - hulp bij icoonkeuze en bij een styling issue van de tree count
 - README: https://claude.ai/share/745e0be3-d9f4-452d-8fdd-d4a06dc6964b
   - hulp bij structuur en invulling van readme-document, afweging tussel simpliciteit en volledigheid
 
 ## 8. Mogelijke uitbreidingen
 
-- **Marker voor de gebruikerslocatie** op de kaart, zodat de eigen positie duidelijk zichtbaar is naast de boommarkers (nu enkel gebruikt om te filteren, niet visueel getoond)
 - **Favorieten op de map aanduiden** op de kaart, momenteel is er geen favorieten-toggle beschikbaar in de popups van de boommarkers
 - **Favorieten op de map hightlighten** op de kaart, nu kan je wel filteren op favorieten, maar de markers zien er visueel hetzelfde uit als de bomen die niet aangeduid zijn als favoriet. Ik zou ze highlighten met een andere opvulkleur.
 - **Boomwandeling-functionaliteit**: boommarkers aanklikken en toevoegen aan een route, route opslaan en exporteren — bewust buiten scope gehouden om de applicatie beheersbaar te houden.

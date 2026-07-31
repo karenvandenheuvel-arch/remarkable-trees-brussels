@@ -29,7 +29,7 @@ export function initMap() {
   map = L.map('map').setView([50.8503, 4.3517], 12);
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap'
+    attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors &copy; <a href="https://carto.com">CARTO</a>'
   }).addTo(map);
 
   markersGroup = L.layerGroup().addTo(map);
