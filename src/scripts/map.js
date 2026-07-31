@@ -2,11 +2,13 @@
 
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import { TREE_ICON_SVG } from './render.js';
 import { getTreeDisplayData } from './filter.js';
 
 let map;
 let markersGroup;
+let userMarker;
 
 // Hergebruik boomicoon favorieten en placeholder als marker op de kaart
 const treeMarkerIcon = L.divIcon({
@@ -16,10 +18,17 @@ const treeMarkerIcon = L.divIcon({
   iconAnchor: [12, 14]
 });
 
+const userLocationIcon = L.icon({
+  iconUrl : markerIcon,
+  className: 'user-location-icon',
+  iconSize: [17, 28],
+  iconAnchor: [8, 28]
+});
+
 export function initMap() {
   map = L.map('map').setView([50.8503, 4.3517], 12);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap'
   }).addTo(map);
 
@@ -63,4 +72,16 @@ function getPopupHtml(tree, lang) {
     <p class="latin-name">${data.latinName}</p>
     <a href="${data.infoUrl}" target="_blank">${data.infoLabel}</a>
   `;
+}
+
+export function showUserLocation(lat, long) {
+  if(!userMarker) {
+    userMarker = L.marker([lat, long], {
+      icon: userLocationIcon
+  });
+  userMarker.addTo(map);
+  }
+  else {
+  userMarker.setLatLng([lat, long]);
+  }
 }

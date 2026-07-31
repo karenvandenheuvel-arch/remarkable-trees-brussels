@@ -5,7 +5,7 @@ import { renderTreeList, observeLazyImages } from './scripts/render.js';
 import { filterTreesBySearch, sortTrees, filterTreesByRarity, filterTreesBySpecies, getUniqueSpecies, filterTreesByFavorites, filterTreesByDistance } from './scripts/filter.js';
 import { toggleFavorite, clearFavorites } from './scripts/favorites.js';
 import { translations } from './scripts/translations.js';
-import { initMap, refreshMapSize, renderMapMarkers } from './scripts/map.js';
+import { initMap, refreshMapSize, renderMapMarkers, showUserLocation } from './scripts/map.js';
 
 // Alle boomdata
 let allTrees = [];
@@ -187,7 +187,7 @@ function handleLocateClick() {
         lat: position.coords.latitude,
         lon: position.coords.longitude
       };
-
+      showUserLocation(userLocation.lat, userLocation.lon);
       const distanceSlider = document.querySelector('#distance-slider');
       distanceSlider.disabled = false;
 

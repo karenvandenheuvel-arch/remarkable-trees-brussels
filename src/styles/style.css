@@ -404,7 +404,6 @@ input[type="checkbox"] {
   flex: 1;
   min-height: 0;
   height: 500px;
-  border-radius: 12px;
   display: none;
 }
 
@@ -444,6 +443,14 @@ input[type="checkbox"] {
   background: none;
   border: none;
   box-shadow: none;
+}
+
+.user-location-icon { 
+  filter: hue-rotate(50deg) saturate(2.5);
+}
+
+.leaflet-tile-pane .leaflet-tile {
+  filter: contrast(80%) saturate(1.2);
 }
 
 .leaflet-popup-content h3 {
@@ -515,6 +522,7 @@ input[type="checkbox"] {
     gap: 0.6rem;
     padding: 0.75rem 2rem;
     flex-direction: row;
+    border-bottom: none;
   }
 
   #sort-select,
@@ -566,12 +574,15 @@ input[type="checkbox"] {
   #tree-count {
     display: block;
     padding: 0.2rem 2rem;
-    margin: 5px auto 5px 0;
+    padding-bottom: 0.4rem;
+    margin: 0;
     font-size: 0.9rem;
     font-weight: 600;
     color: #3b6d11;
     text-align: left;
-    background-color: #f7f5f0;
+    background-color: white;
     border-bottom: none;
+    width: 100%;
   }
+  
 }
