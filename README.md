@@ -33,7 +33,7 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 
 **Gebruikerservaring**
 
-* Responsive design, mobile-first opgebouwd over drie breakpoints (375px, 640px, 1024px)
+* Responsive design, mobile-first, met breakpoints 640px en 1024px (getest vanaf 375px)
   - Op mobiel en tablet is de filtersectie inklapbaar, bewust gekozen om het scherm overzichtelijk en "clean" te houden. Voor de desktop is er voldoende ruimte om all filters standaard open te tonen.
 * Toggle tussen lijst- en kaartweergave
 * "Reset filters"-knop en "Reset favorieten"-knop
@@ -56,7 +56,7 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 |---|---|---|
 | render.js | 30,34 | `renderTreeList()` injecteert de HTML voor elke boomkaart via `innerHTML`, opgebouwd uit de boomdata. |
 | main.js | 293,296 | `createSpeciesDropdown()` bouwt de soort-dropdown dynamisch op met `createElement()` en `appendChild()`. |
-| main.js | 127-149,238-286 | `setLanguage()` en `applyViewState()` werken bestaande elementen bij via `textContent` en `classList.toggle()`/`add()`/`remove()`. In `applyViewState()` wordt de boolean-vorm van classList.toggle() gebruikt (zie sectie 3.7)|
+| main.js | 127-149,238-286 | `applyViewState()` en `setLanguage()` werken bestaande elementen bij via `textContent` en `classList.toggle()`/`add()`/`remove()`. In `applyViewState()` wordt de boolean-vorm van classList.toggle() gebruikt (zie sectie 3.7)|
 
 #### Events koppelen
 
@@ -74,7 +74,7 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 |---|---|---|
 | api.js | 3,6 | `BASE_URL` en `limit` in `fetchTrees()` - vaste waarden die niet wijzigen tijdens de uitvoering. |
 | render.js | 8 | `TREE_ICON_SVG` - herbruikbare SVG-string, als module-constante gedefinieerd zodat ze niet telkens opnieuw wordt aangemaakt. |
-| main.js | 42,45,48,51,54,57,61,64,67,70,73,76,79 | `initApp()` - alle opgehaalde DOM-referenties (`searchInput`, `sortSelect`, `raritySelect`, `speciesSelect`, `favoritesCheckbox`, `appContainer`, `languageToggle`, `viewToggle`, `distanceSlider`, `locateBtn`, `resetFiltersBtn`, `filterToggle`) worden als `const` gedeclareerd. |
+| main.js | 42,45,48,51,54,57,61,64,67,70,73,76,79 | `initApp()` - alle opgehaalde DOM-referenties (`searchInput`, `sortSelect`, `raritySelect`, `speciesSelect`, `favoritesCheckbox`, `appContainer`, `languageToggle`, `viewToggle`, `distanceSlider`, `locateBtn`, `resetFavoritesBtn`, `resetFiltersBtn`, `filterToggle`) worden als `const` gedeclareerd. |
 | main.js | 21,23 | `storedLang` en `storedView` - opgehaalde LocalStorage-waarden die niet herschreven worden. |
 | filter.js | 78-79,81-82 | `getDistanceInMeters()` - `metersPerDegreeLat`, `metersPerDegreeLon`, `deltaLat`, `deltaLon` als tussentijdse constanten in de afstandsberekening. |
 
@@ -182,7 +182,7 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 
 | Bestand | Lijnnummer | Uitleg |
 |---|---|---|
-| favorites.js | 5-8,20-30,32-42 | `getFavorites()`, `toggleFavorite()`, `clearFavorites()` - favorieten worden bewaard als array van boom-ID's onder de key `favoriteTrees`, met `localStorage.getItem()`/`setItem()`/`removeItem()` en `JSON.stringify()`/`JSON.parse()` om de array om te zetten naar en van een opslagbare string. |
+| favorites.js | 5-8,16-18,20-30,32-34 | `getFavorites()`, `setFavorites()`, `toggleFavorite()`, `clearFavorites()` - favorieten worden bewaard als array van boom-ID's onder de key `favoriteTrees`, met `localStorage.getItem()`/`setItem()`/`removeItem()` en `JSON.stringify()`/`JSON.parse()` om de array om te zetten naar en van een opslagbare string. |
 | main.js | 21,263 | Taalkeuze: `setLanguage()` slaat `currentLang` op via `localStorage.setItem("language", currentLang)`; bij opstart wordt deze uitgelezen via `localStorage.getItem("language")` om de voorkeur te herstellen. |
 | main.js | 23,156 | Weergavekeuze (lijst/kaart): `handleViewToggle()` slaat `currentView` op via `localStorage.setItem('view', currentView)`; bij opstart uitgelezen via `localStorage.getItem('view')`. |
 
@@ -193,11 +193,11 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 
 | Bestand | Lijnnummer | Uitleg |
 |---|---|---|
-| style.css | 31-41,510-513 | `header` - CSS Grid met named template areas (`"view lang" "title title"`); bij 1024px+ herschikt naar `"view title lang"` zonder de HTML te moeten aanpassen, enkel door de area-namen te herverdelen. |
-| style.css | 266-275,486-491 | `#app` - kaarten-grid, mobile-first `1fr` (één kolom), vanaf 640px `repeat(auto-fill, minmax(220px, 1fr))`: bepaalt automatisch hoeveel kolommen passen op basis van beschikbare breedte, zonder vaste breakpoints per kolomaantal. |
+| style.css | 31-41,514-517 | `header` - CSS Grid met named template areas (`"view lang" "title title"`); bij 1024px+ herschikt naar `"view title lang"` zonder de HTML te moeten aanpassen, enkel door de area-namen te herverdelen. |
+| style.css | 265-274,490-495 | `#app` - kaarten-grid, mobile-first `1fr` (één kolom), vanaf 640px `repeat(auto-fill, minmax(220px, 1fr))`: bepaalt automatisch hoeveel kolommen passen op basis van beschikbare breedte, zonder vaste breakpoints per kolomaantal. |
 | style.css | 23-29,96-101 | `body` en `main` - flex column-opbouw van de hoofdstructuur (header, main content); `main { flex: 1 }` laat de inhoud de resterende ruimte innemen. |
-| style.css | 277-289 | `.tree-card` - flexbox column-opbouw per kaart (foto, tekst, footer-link) met `gap` voor consistente afstand tussen elementen. |
-| style.css | 103-111,519-527 | `#controls` - flex column op mobiel, herschikt naar flex row met `flex-wrap` vanaf 1024px voor een compactere, horizontale controlebalk op grotere schermen. |
+| style.css | 276-289 | `.tree-card` - flexbox column-opbouw per kaart (foto, tekst, footer-link) met `gap` voor consistente afstand tussen elementen. |
+| style.css | 103-110,523-531 | `#controls` - flex column op mobiel, herschikt naar flex row met `flex-wrap` vanaf 1024px voor een compactere, horizontale controlebalk op grotere schermen. |
 
 #### Basis CSS
 
@@ -205,23 +205,24 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 |---|---|---|
 | style.css | 13-15 | `:root { --text-muted: ... }` - CSS custom property voor consistente, herbruikbare kleurwaarden doorheen het stylesheet. |
 | style.css | 1-3 | Globale reset (`* { box-sizing: border-box; }`) en typografie-basis (`font-family`, kleuren, `border-radius`) toegepast op body, kaarten en knoppen. |
-| style.css | 23-29,257-259 | Basis stijlelementen: `background-color` (bv. kaarten, header, badges), `font-family`/`font-size`/`font-weight` (body, knoppen, tekst), `border`/`border-radius` (kaarten, knoppen, inputs), `padding`/`margin` (spacing tussen en binnen elementen), en pseudo-classes zoals `:hover` (bv. `.reset-btn:hover`) voor visuele feedback. |
+| style.css | 23-29,256-258 | Basis stijlelementen: `background-color` (bv. kaarten, header, badges), `font-family`/`font-size`/`font-weight` (body, knoppen, tekst), `border`/`border-radius` (kaarten, knoppen, inputs), `padding`/`margin` (spacing tussen en binnen elementen), en pseudo-classes zoals `:hover` (bv. `.reset-btn:hover`) voor visuele feedback. |
 
 #### Gebruiksvriendelijke elementen
 
 | Bestand | Lijnnummer | Uitleg |
 |---|---|---|
-| style.css | 367-401 | `.favorite-icon` - knop met SVG-boomicoon, visuele toggle-status via de `.active`-class (kleurverandering van het icoon). |
-| style.css | 247-259 | `.reset-btn` - onderstreepte tekstknop voor "Reset filters" en "Reset favorieten", herkenbaar als secundaire actie t.o.v. de primaire controls. |
-| style.css | 187-203 | `#toggle-filters-btn` - knop met roterend pijltje-icoon (`▾` via `::after`, geroteerd bij `.open`) om het filterpaneel op mobiel/tablet in/uit te klappen. |
-| style.css | 328-336 | `.rarity-badge` - pil-vormig badge-element (`border-radius: 999px`) dat de zeldzaamheid van een boom visueel onderscheidt van de rest van de kaarttekst. |
+| style.css | 371-405 | `.favorite-icon` - knop met SVG-boomicoon, visuele toggle-status via de `.active`-class (kleurverandering van het icoon) |
+| style.css | 246-258 | `.reset-btn` - onderstreepte tekstknop voor "Reset filters" en "Reset favorieten", herkenbaar als secundaire actie t.o.v. de primaire controls. |
+| style.css | 186-202 | `#toggle-filters-btn` - knop met roterend pijltje-icoon (`▾` via `::after`, geroteerd bij `.open`) om het filterpaneel op mobiel/tablet in/uit te klappen. |
+| style.css | 332-340 | `.rarity-badge` - pil-vormig badge-element (`border-radius: 999px`) dat de zeldzaamheid van een boom visueel onderscheidt van de rest van de kaarttekst. |
+| style.css | 276-293 | `.tree-card:hover` - lichte `translateY(-2px)`-verschuiving met `transition`, geeft de kaart een subtiel interactief gevoel zonder de layout van omliggende kaarten te verstoren. |
 
 #### Responsive design
 
 | Breakpoint | Lijnnummer | Wat wijzigt |
 |---|---|---|
-| `min-width: 640px` | 485-507 | Kaarten-grid wordt `repeat(auto-fill, minmax(220px, 1fr))` (zie sectie 3.7) i.p.v. één vaste kolom; individuele kaarten (`.tree-card`) groeien mee binnen hun kolom via `aspect-ratio` (zie sectie 3.7) op de foto (in plaats van vaste pixel-hoogtes per breakpoint); zoek/sorteer-rij wordt horizontaal i.p.v. verticaal; meer padding op kaarten en `#app`.  |
-| `min-width: 1024px` | 509-600 | Header herschikt naar `"view title lang"`; `#controls` wordt horizontaal; filterpaneel altijd zichtbaar (`display: contents`, toggle-knop verborgen, zie sectie 3.7); telling verschuift van inline (`#tree-count-inline`) naar een aparte regel (`#tree-count`). |
+| `min-width: 640px` | 489-511 | Kaarten-grid wordt `repeat(auto-fill, minmax(220px, 1fr))` (zie sectie 3.7) i.p.v. één vaste kolom; individuele kaarten (`.tree-card`) groeien mee binnen hun kolom via `aspect-ratio` (zie sectie 3.7) op de foto (in plaats van vaste pixel-hoogtes per breakpoint); zoek/sorteer-rij wordt horizontaal i.p.v. verticaal; meer padding op kaarten en `#app`.  |
+| `min-width: 1024px` | 513-604 | Header herschikt naar `"view title lang"`; `#controls` wordt horizontaal; filterpaneel altijd zichtbaar (`display: contents`, toggle-knop verborgen, zie sectie 3.7); telling verschuift van inline (`#tree-count-inline`) naar een aparte regel (`#tree-count`). |
 
 ### 3.6 Tooling & structuur
 
@@ -260,7 +261,7 @@ Deze concepten zijn niet expliciet behandeld in de cursus, maar werden tijdens m
 
 | Concept | Bestand | Lijnnummer | Uitleg |
 |---|---|---|---|
-| Spread operator (`[...array]`) | filter.js | 25 | `getUniqueSpecies()` - `[...new Set(...)]` zet een `Set` terug om naar een array; hiervoor bestaat geen in de cursus behandeld alternatief. |
+| Spread operator (`[...array]`) | filter.js, favorites.js | 25, 27 | Gebruikt op 2 plekken: `getUniqueSpecies()` (filter.js) - `[...new Set(...)]` zet een `Set` terug om naar een array; `toggleFavorite()` (favorites.js) - `[...favorites, treeId]`, consistent met de `.filter()`-tak in dezelfde functie (die ook een nieuwe array teruggeeft) i.p.v. `.push()` te gebruiken. |
 | `.includes()` | favorites.js | 13 | `isFavorite()` - array-methode om te checken of een boom-ID al in de favorieten-array zit. |
 | Event delegation | main.js | 86-93 | `handleFavoriteClick()` - één listener op de containerelement (`#app`), met `event.target.closest('.favorite-icon')` en een early-return guard om te bepalen of en welke favorieten-knop werd aangeklikt. Voorkomt dat elke individuele, dynamisch gerenderde kaart een eigen listener nodig heeft. |
 | Leaflet.js | map.js | 28-43 | Externe library voor de kaartweergave: initialisatie van de kaart, markers, popups per boom, en `invalidateSize()` (via `refreshMapSize()`) om weergaveproblemen bij het wisselen tussen lijst/kaart te vermijden. |
@@ -271,11 +272,11 @@ Voor de styling heb ik ook een aantal zaken gebruikt die nog niet (in detail) ge
 
 | Concept | Bestand | Lijnnummer | Uitleg |
 |---|---|---|---|
-| CSS `transition` | style.css | 194-199 | `#toggle-filters-btn::after` - `transition: transform 0.2s ease` zorgt voor een vloeiende rotatie van het pijltje-icoon (`▾`) bij het openen/sluiten van het filterpaneel, in plaats van een abrupte sprong. |
-| `display: contents` | style.css | 539-543 | Bij `min-width: 1024px` toegepast op `.search-sort-row` en `#filter-wrapper`: haalt deze wrapper-elementen uit de visuele hiërarchie zodat hun kind-elementen rechtstreeks deelnemen aan de flex-layout van `#controls`. Caveat: kan "cascade leaks" veroorzaken (bv. een `flex: 1` uit een lager breakpoint dat blijft doorwerken), en vereist daarom expliciete overrides op het hogere breakpoint. |
-| `aspect-ratio` | style.css | 291-298 | `.tree-photo`, `.tree-icon` - reserveert een vaste verhouding (`260 / 180`) vóór de foto geladen is, wat layoutverschuiving door lazy loading voorkomt. |
-| `minmax()` / `auto-fill` | style.css | 487 | `#app` - `grid-template-columns: repeat(auto-fill, minmax(220px, 1fr))` laat het aantal kolommen automatisch berekenen op basis van beschikbare breedte, zonder een vast aantal kolommen per breakpoint te moeten opgeven. |
-| `filter: hue-rotate()` | style.css | 450-452 | `.user-location-icon` - hergebruikt Leaflet's standaard marker-afbeelding (marker-icon.png) maar herkleurt deze naar paars via hue-rotate() + saturate(), in plaats van een aparte custom afbeelding aan te maken. Onderscheidt de gebruikerslocatie visueel van de boommarkers (.tree-marker-icon). |
+| CSS `transition` | style.css | 193-198 | `#toggle-filters-btn::after` - `transition: transform 0.2s ease` zorgt voor een vloeiende rotatie van het pijltje-icoon (`▾`) bij het openen/sluiten van het filterpaneel, in plaats van een abrupte sprong. |
+| `display: contents` | style.css | 544-548 | Bij `min-width: 1024px` toegepast op `.search-sort-row` en `#filter-wrapper`: haalt deze wrapper-elementen uit de visuele hiërarchie zodat hun kind-elementen rechtstreeks deelnemen aan de flex-layout van `#controls`. Caveat: kan "cascade leaks" veroorzaken (bv. een `flex: 1` uit een lager breakpoint dat blijft doorwerken), en vereist daarom expliciete overrides op het hogere breakpoint. |
+| `aspect-ratio` | style.css | 295-302 | `.tree-photo`, `.tree-icon` - reserveert een vaste verhouding (`260 / 180`) vóór de foto geladen is, wat layoutverschuiving door lazy loading voorkomt. |
+| `minmax()` / `auto-fill` | style.css | 491 | `#app` - `grid-template-columns: repeat(auto-fill, minmax(220px, 1fr))` laat het aantal kolommen automatisch berekenen op basis van beschikbare breedte, zonder een vast aantal kolommen per breakpoint te moeten opgeven. |
+| `filter: hue-rotate()` | style.css | 454-456 | `.user-location-icon` - hergebruikt Leaflet's standaard marker-afbeelding (marker-icon.png) maar herkleurt deze naar paars via hue-rotate() + saturate(), in plaats van een aparte custom afbeelding aan te maken. Onderscheidt de gebruikerslocatie visueel van de boommarkers (.tree-marker-icon). |
 
 ## 4. API
 
