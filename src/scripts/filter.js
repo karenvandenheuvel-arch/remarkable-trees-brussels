@@ -30,16 +30,24 @@ export function filterTreesByFavorites(trees) {
   return trees.filter(tree => isFavorite(tree.id_arbres_cms));
 }
 
-export function sortTrees(trees, sortOption) {
-  // Kopie van trees zodat de allTrees-array niet gemuteerd wordt 
+export function sortTrees(trees, sortOption, lang) {
+  // Kopie van trees zodat de allTrees-array niet gemuteerd wordt
   const sorted = trees.map(function (tree) {
     return tree;
   });
 
   if (sortOption === 'name-asc') {
-    sorted.sort((a, b) => a.nom_nl?.localeCompare(b.nom_nl));
+    sorted.sort((a, b) => {
+      const nameA = lang === 'fr' ? a.nom_fr : a.nom_nl;
+      const nameB = lang === 'fr' ? b.nom_fr : b.nom_nl;
+      return nameA?.localeCompare(nameB);
+    });
   } else if (sortOption === 'name-desc') {
-    sorted.sort((a, b) => b.nom_nl?.localeCompare(a.nom_nl));
+    sorted.sort((a, b) => {
+      const nameA = lang === 'fr' ? a.nom_fr : a.nom_nl;
+      const nameB = lang === 'fr' ? b.nom_fr : b.nom_nl;
+      return nameB?.localeCompare(nameA);
+    });
   } else if (sortOption === 'girth-desc') {
     sorted.sort((a, b) => b.circonference - a.circonference);
   } else if (sortOption === 'girth-asc') {

@@ -13,7 +13,7 @@ export async function fetchTrees() {
       const response = await fetch(`${BASE_URL}?limit=${limit}&offset=${offset}`);
       const data = await response.json();
 
-      allTrees = [...allTrees, ...data.results];
+      allTrees = [...allTrees, ...data.results]; 
       totalCount = data.total_count;
       offset += limit;
     }

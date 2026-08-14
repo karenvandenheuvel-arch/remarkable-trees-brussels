@@ -89,7 +89,14 @@ function handleFavoriteClick(event) {
   if (!button) return;
   const treeId = button.dataset.treeId;
   toggleFavorite(treeId);
-  applyFilters();
+
+  if (showFavoritesOnly) {
+    // samenstelling van de lijst kan wijzigen, dus volledige rerender nodig
+    applyFilters();
+  } else {
+    // enkel dit knopje bijwerken, geen volledige rerender (voorkomt flits van geladen foto's)
+    button.classList.toggle('active');
+  }
 }
 
 function handleFavoritesOnlyChange(event) {
@@ -99,6 +106,8 @@ function handleFavoritesOnlyChange(event) {
 
 function handleResetFavorites() {
   clearFavorites();
+  showFavoritesOnly = false;
+  document.querySelector('#favorites-only-checkbox').checked = false;
   applyFilters();
 }
 
@@ -320,7 +329,7 @@ function applyFilters() {
   }
 
   if (currentSort) {
-    result = sortTrees(result, currentSort);
+    result = sortTrees(result, currentSort, currentLang);
   }
 
   const t = translations[currentLang];

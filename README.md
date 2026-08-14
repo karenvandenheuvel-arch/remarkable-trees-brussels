@@ -34,7 +34,7 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 **Gebruikerservaring**
 
 * Responsive design, mobile-first, met breakpoints 640px en 1024px (getest vanaf 375px)
-  - Op mobiel en tablet is de filtersectie inklapbaar, bewust gekozen om het scherm overzichtelijk en "clean" te houden. Voor de desktop is er voldoende ruimte om all filters standaard open te tonen.
+  - Op mobiel en tablet is de filtersectie inklapbaar, bewust gekozen om het scherm overzichtelijk en "clean" te houden. Voor de desktop is er voldoende ruimte om alle filters standaard open te tonen.
 * Toggle tussen lijst- en kaartweergave
 * "Reset filters"-knop en "Reset favorieten"-knop
 * Live telling van het aantal getoonde bomen, en vertaalde foutmeldingen bij geolocatie-problemen
@@ -55,15 +55,15 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 | Bestand | Lijnnummer | Uitleg |
 |---|---|---|
 | render.js | 30,34 | `renderTreeList()` injecteert de HTML voor elke boomkaart via `innerHTML`, opgebouwd uit de boomdata. |
-| main.js | 293,296 | `createSpeciesDropdown()` bouwt de soort-dropdown dynamisch op met `createElement()` en `appendChild()`. |
-| main.js | 127-149,238-286 | `applyViewState()` en `setLanguage()` werken bestaande elementen bij via `textContent` en `classList.toggle()`/`add()`/`remove()`. In `applyViewState()` wordt de boolean-vorm van classList.toggle() gebruikt (zie sectie 3.7)|
+| main.js | 302,305 | `createSpeciesDropdown()` bouwt de soort-dropdown dynamisch op met `createElement()` en `appendChild()`. |
+| main.js | 136-158,247-295 | `applyViewState()` en `setLanguage()` werken bestaande elementen bij via `textContent` en `classList.toggle()`/`add()`/`remove()`. In `applyViewState()` wordt de boolean-vorm van classList.toggle() gebruikt (zie sectie 3.7)|
 
 #### Events koppelen
 
 | Bestand | Lijnnummer | Uitleg |
 |---|---|---|
 | main.js | 43,46,49,52,55,58,62,65,68,71,74,77,80 | `initApp()` koppelt alle event listeners (`input`, `change`, `click`) aan de betrokken DOM-elementen. |
-| main.js | 86-93 | `handleFavoriteClick()` demonstreert event delegation: één listener op de container-element, met `event.target.closest()` om te bepalen welke favorieten-knop werd aangeklikt (zie ook sectie 3.7). |
+| main.js | 86-100 | `handleFavoriteClick()` demonstreert event delegation: één listener op de container-element, met `event.target.closest()` om te bepalen welke favorieten-knop werd aangeklikt (zie ook sectie 3.7). |
 
 
 ### 3.2 Modern JavaScript
@@ -76,7 +76,7 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 | render.js | 8 | `TREE_ICON_SVG` - herbruikbare SVG-string, als module-constante gedefinieerd zodat ze niet telkens opnieuw wordt aangemaakt. |
 | main.js | 42,45,48,51,54,57,61,64,67,70,73,76,79 | `initApp()` - alle opgehaalde DOM-referenties (`searchInput`, `sortSelect`, `raritySelect`, `speciesSelect`, `favoritesCheckbox`, `appContainer`, `languageToggle`, `viewToggle`, `distanceSlider`, `locateBtn`, `resetFavoritesBtn`, `resetFiltersBtn`, `filterToggle`) worden als `const` gedeclareerd. |
 | main.js | 21,23 | `storedLang` en `storedView` - opgehaalde LocalStorage-waarden die niet herschreven worden. |
-| filter.js | 78-79,81-82 | `getDistanceInMeters()` - `metersPerDegreeLat`, `metersPerDegreeLon`, `deltaLat`, `deltaLon` als tussentijdse constanten in de afstandsberekening. |
+| filter.js | 86-87,89-90 | `getDistanceInMeters()` - `metersPerDegreeLat`, `metersPerDegreeLon`, `deltaLat`, `deltaLon` als tussentijdse constanten in de afstandsberekening. |
 
 #### Template literals
 
@@ -84,54 +84,54 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 |---|---|---|
 | api.js | 13 | `fetchTrees()` - de fetch-URL wordt opgebouwd met `` `${BASE_URL}?limit=${limit}&offset=${offset}` ``. |
 | render.js | 18-22,40-55 | `renderTreeList()` en `getFavoriteButtonHtml()` - opbouw van de volledige boomkaart- en favorieten-knop-HTML. |
-| main.js | 181,327-328 | `setLanguage()` en `handleDistanceChange()` - weergave van de afstandswaarde als `` `${value} m` ``. |
+| main.js | 190,286 | `setLanguage()` en `handleDistanceChange()` - weergave van de afstandswaarde als `` `${value} m` ``. |
 
 #### Iteratie over arrays
 
 | Bestand | Lijnnummer | Uitleg |
 |---|---|---|
-| main.js | 128-130 | `applyViewState()` - `.forEach()` op `document.querySelectorAll('.view-btn')` om de actieve view-knop te markeren. |
-| main.js | 241-243 | `setLanguage()` - `.forEach()` op `document.querySelectorAll('.lang-btn')` om de actieve taalknop te markeren. |
-| main.js | 292-297 | `createSpeciesDropdown()` - `.forEach()` over de unieke soorten om per soort een `<option>` toe te voegen. |
+| main.js | 137-139 | `applyViewState()` - `.forEach()` op `document.querySelectorAll('.view-btn')` om de actieve view-knop te markeren. |
+| main.js | 250-252 | `setLanguage()` - `.forEach()` op `document.querySelectorAll('.lang-btn')` om de actieve taalknop te markeren. |
+| main.js | 301-306 | `createSpeciesDropdown()` - `.forEach()` over de unieke soorten om per soort een `<option>` toe te voegen. |
 | render.js | 77 | `observeLazyImages()` - `.forEach()` over de lazy-afbeeldingen om elk aan de IntersectionObserver te koppelen. |
 
 #### Array methodes
 
 | Bestand | Lijnnummer | Uitleg |
 |---|---|---|
-| filter.js | 8,15,19,30,88 | `filterTreesBySearch()`, `filterTreesByRarity()`, `filterTreesBySpecies()`, `filterTreesByFavorites()`, `filterTreesByDistance()` - gebruiken elk `.filter()` om een nieuwe, gefilterde array terug te geven zonder de originele te veranderen. |
+| filter.js | 8,15,19,30,96 | `filterTreesBySearch()`, `filterTreesByRarity()`, `filterTreesBySpecies()`, `filterTreesByFavorites()`, `filterTreesByDistance()` - gebruiken elk `.filter()` om een nieuwe, gefilterde array terug te geven zonder de originele te veranderen. |
 | filter.js | 10 | `filterTreesBySearch()` gebruikt ook `.includes()` (string-methode) om te checken of de zoekterm in de naam voorkomt (zie ook sectie 3.7) |
 | filter.js | 24,26 | `getUniqueSpecies()` - `.map()` om alle Latijnse namen te verzamelen, gevolgd door `.sort()` met `localeCompare()` voor alfabetische volgorde. |
-| filter.js | 35,40-50 | `sortTrees()` - `.map()` om een kopie van de array te maken (voorkomt mutatie van `allTrees`), gevolgd door `.sort()` met een compare-functie per sorteeroptie. |
+| filter.js | 35,40-58 | `sortTrees()` - `.map()` om een kopie van de array te maken (voorkomt mutatie van `allTrees`), gevolgd door `.sort()` met een compare-functie per sorteeroptie (voor naam-sortering taalafhankelijk via de meegegeven `lang`). |
 | render.js | 34,56 | `renderTreeList()` - `.map()` om elke boom naar zijn kaart-HTML om te zetten, gevolgd door `.join('')` om de HTML-strings samen te voegen. |
 
 #### Arrow functions
 
 | Bestand | Lijnnummer | Uitleg |
 |---|---|---|
-| filter.js | 8-11,15,19,24,26,30,40-50,88-99 | Alle `.filter()`-, `.map()`- en `.sort()`-aanroepen gebruiken arrow functions als callback, bv. `tree => rarity === tree.rarete` en `(a, b) => a.nom_nl?.localeCompare(b.nom_nl)`. |
+| filter.js | 8-11,15,19,24,26,30,40-58,96-107 | Alle `.filter()`-, `.map()`- en `.sort()`-aanroepen gebruiken arrow functions als callback, bv. `tree => rarity === tree.rarete` en `(a, b) => nameA?.localeCompare(nameB)`. |
 | render.js | 34,77 | `renderTreeList()` - de `.map()`-callback (`tree => {...}`) die per boom de kaart-HTML opbouwt. |
-| main.js | 128,241,292 | `applyViewState()`, `setLanguage()`, `createSpeciesDropdown()` - de `.forEach()`-callbacks gebruiken arrow functions, bv. `btn => {...}` en `name => {...}`. |
+| main.js | 137,250,301 | `applyViewState()`, `setLanguage()`, `createSpeciesDropdown()` - de `.forEach()`-callbacks gebruiken arrow functions, bv. `btn => {...}` en `name => {...}`. |
 
 #### Ternary operator
 
 | Bestand | Lijnnummer | Uitleg |
 |---|---|---|
-| filter.js | 9,67,69 | `filterTreesBySearch()` en `getTreeDisplayData()` - `lang === 'fr' ? tree.nom_fr : tree.nom_nl` (en analoog voor `infoUrl`) om de juiste taalversie van een veld te kiezen. |
+| filter.js | 9,75,77 | `filterTreesBySearch()` en `getTreeDisplayData()` - `lang === 'fr' ? tree.nom_fr : tree.nom_nl` (en analoog voor `infoUrl`) om de juiste taalversie van een veld te kiezen. |
 | render.js | 36-38 | `renderTreeList()` - `data.photoUrl ? imageHtml : TREE_ICON_SVG` als fallback wanneer een boom geen foto heeft. |
 | render.js | 17 | `getFavoriteButtonHtml()` - `isFavorite(treeId) ? 'active' : ''` om de favoriet-status van de knop te bepalen. |
-| main.js | 177,181 | `handleDistanceChange()` - `value > 0 ? value : null`, en de bijhorende labeltekst `currentDistance ? ... : t.sliderHint`. |
+| main.js | 186,190 | `handleDistanceChange()` - `value > 0 ? value : null`, en de bijhorende labeltekst `currentDistance ? ... : t.sliderHint`. |
 | main.js | 22,24 | Initialisatie van `currentLang` en `currentView`  - `storedLang ? storedLang : "nl"` en `storedView ? storedView : 'list'` als fallback naar een standaardwaarde. |
 
 #### Callback functions
 
 | Bestand | Lijnnummer | Uitleg |
 |---|---|---|
-| filter.js | 40-50,26 | Compare-functies doorgegeven aan `.sort()` in `sortTrees()` en `getUniqueSpecies()` - `.sort()` bepaalt zelf wanneer de callback wordt uitgevoerd. |
-| filter.js | 8,15,19,24,30,88 | Callbacks doorgegeven aan `.filter()` (bv. in `filterTreesBySearch()`, `filterTreesByRarity()`, `filterTreesBySpecies()`, `filterTreesByFavorites()`, `filterTreesByDistance()`) en aan `.map()` in `getUniqueSpecies()` en `sortTrees()`. |
+| filter.js | 40-58,26 | Compare-functies doorgegeven aan `.sort()` in `sortTrees()` en `getUniqueSpecies()` - `.sort()` bepaalt zelf wanneer de callback wordt uitgevoerd. |
+| filter.js | 8,15,19,24,30,96 | Callbacks doorgegeven aan `.filter()` (bv. in `filterTreesBySearch()`, `filterTreesByRarity()`, `filterTreesBySpecies()`, `filterTreesByFavorites()`, `filterTreesByDistance()`) en aan `.map()` in `getUniqueSpecies()` en `sortTrees()`. |
 | render.js | 34,77 | `.map()`-callback in `renderTreeList()`; `.forEach()`-callback in `observeLazyImages()`. |
 | main.js | 43-80 | Alle `.addEventListener()`-aanroepen in `initApp()` geven een handler-functie mee die pas wordt uitgevoerd bij het triggeren van het event (bv. `handleSearchInput`, `handleSortChange`, `handleFavoriteClick`). |
-| main.js | 190-217 | `handleLocateClick()` - `navigator.geolocation.getCurrentPosition()` krijgt twee callbacks mee, één voor succes en één voor een fout. |
+| main.js | 199-226 | `handleLocateClick()` - `navigator.geolocation.getCurrentPosition()` krijgt twee callbacks mee, één voor succes en één voor een fout. |
 | render.js | 63-75 | `observeLazyImages()` - de callback die aan `new IntersectionObserver(callback, options)` wordt meegegeven en telkens wordt uitgevoerd wanneer de observer een wijziging detecteert. |
 
 #### Promises / async-await
@@ -160,7 +160,7 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 | Bestand | Lijnnummer | Uitleg |
 |---|---|---|
 | api.js | 14,17 | `fetchTrees()` - `await response.json()` zet de ruwe JSON-respons van de API om naar een bruikbaar JS-object, waaruit `data.results` en `data.total_count` gehaald worden. |
-| filter.js | 63-74 | `getTreeDisplayData()` - herstructureert een ruw boom-object uit de API naar een taalafhankelijk weergave-object (naam, Latijnse naam, infolink, zeldzaamheidslabel, foto). |
+| filter.js | 71-82 | `getTreeDisplayData()` - herstructureert een ruw boom-object uit de API naar een taalafhankelijk weergave-object (naam, Latijnse naam, infolink, zeldzaamheidslabel, foto). |
 | filter.js | 23-27 | `getUniqueSpecies()` - manipuleert de opgehaalde JSON-array om er de unieke, alfabetisch gesorteerde soortnamen uit te halen. |
 | favorites.js | 7,17 | `getFavorites()` en `setFavorites()` - `JSON.parse()` en `JSON.stringify()` zetten de favorieten-array om van en naar een string, nodig om ze op te slaan in LocalStorage (dat enkel strings accepteert). Zie sectie 3.4 voor de LocalStorage-toepassing zelf. |
 
@@ -170,7 +170,7 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 
 | Bestand | Lijnnummer | Uitleg |
 |---|---|---|
-| main.js | 177 | `handleDistanceChange()` - `value > 0 ? value : null` valideert de sliderwaarde vóór gebruik: enkel een positieve waarde wordt als geldige afstand geaccepteerd, anders wordt de afstandsfilter uitgeschakeld (`null`). |
+| main.js | 186 | `handleDistanceChange()` - `value > 0 ? value : null` valideert de sliderwaarde vóór gebruik: enkel een positieve waarde wordt als geldige afstand geaccepteerd, anders wordt de afstandsfilter uitgeschakeld (`null`). |
 
 *Opmerking: Naast pure formuliervalidatie bevat de code op meerdere plekken checks tegen ontbrekende of foutieve data:
   - De geolocation-foutafhandeling (zie functies `handleLocateClick()`/`updateLocationErrorMessage()`in main.js)
@@ -183,8 +183,8 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 | Bestand | Lijnnummer | Uitleg |
 |---|---|---|
 | favorites.js | 5-8,16-18,20-30,32-34 | `getFavorites()`, `setFavorites()`, `toggleFavorite()`, `clearFavorites()` - favorieten worden bewaard als array van boom-ID's onder de key `favoriteTrees`, met `localStorage.getItem()`/`setItem()`/`removeItem()` en `JSON.stringify()`/`JSON.parse()` om de array om te zetten naar en van een opslagbare string. |
-| main.js | 21,263 | Taalkeuze: `setLanguage()` slaat `currentLang` op via `localStorage.setItem("language", currentLang)`; bij opstart wordt deze uitgelezen via `localStorage.getItem("language")` om de voorkeur te herstellen. |
-| main.js | 23,156 | Weergavekeuze (lijst/kaart): `handleViewToggle()` slaat `currentView` op via `localStorage.setItem('view', currentView)`; bij opstart uitgelezen via `localStorage.getItem('view')`. |
+| main.js | 21,272 | Taalkeuze: `setLanguage()` slaat `currentLang` op via `localStorage.setItem("language", currentLang)`; bij opstart wordt deze uitgelezen via `localStorage.getItem("language")` om de voorkeur te herstellen. |
+| main.js | 23,165 | Weergavekeuze (lijst/kaart): `handleViewToggle()` slaat `currentView` op via `localStorage.setItem('view', currentView)`; bij opstart uitgelezen via `localStorage.getItem('view')`. |
 
 
 ### 3.5 Styling & layout
@@ -193,11 +193,12 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 
 | Bestand | Lijnnummer | Uitleg |
 |---|---|---|
-| style.css | 31-41,514-517 | `header` - CSS Grid met named template areas (`"view lang" "title title"`); bij 1024px+ herschikt naar `"view title lang"` zonder de HTML te moeten aanpassen, enkel door de area-namen te herverdelen. |
-| style.css | 265-274,490-495 | `#app` - kaarten-grid, mobile-first `1fr` (één kolom), vanaf 640px `repeat(auto-fill, minmax(220px, 1fr))`: bepaalt automatisch hoeveel kolommen passen op basis van beschikbare breedte, zonder vaste breakpoints per kolomaantal. |
-| style.css | 23-29,96-101 | `body` en `main` - flex column-opbouw van de hoofdstructuur (header, main content); `main { flex: 1 }` laat de inhoud de resterende ruimte innemen. |
-| style.css | 276-289 | `.tree-card` - flexbox column-opbouw per kaart (foto, tekst, footer-link) met `gap` voor consistente afstand tussen elementen. |
-| style.css | 103-110,523-531 | `#controls` - flex column op mobiel, herschikt naar flex row met `flex-wrap` vanaf 1024px voor een compactere, horizontale controlebalk op grotere schermen. |
+| style.css | 31-41,514-517 | `header` - **Grid**, want de indeling heeft 2 rijen (knoppen + titel) die op 1024px+ herschikken naar 1 rij. Met named areas (`"view lang" "title title"` → `"view title lang"`) hoef je enkel de area-namen te herverdelen. |
+| style.css | 265-274,490-495 | `#app` (bomenkaarten) - **Grid**, want het aantal kolommen moet automatisch meegroeien met de schermbreedte (`repeat(auto-fill, minmax(220px, 1fr))`). Flexbox kan ook naar een nieuwe rij omslaan, maar garandeert dan niet dat elke kaart even breed is. |
+| style.css | 154-158,168-170 | `#filter-wrapper.open` (filterpaneel) - **Grid** met 2 kolommen: de zeldzaamheid- en soortdropdown staan naast elkaar, terwijl de afstandsfilter en de favorieten/reset-rij over beide kolommen heen spannen (`grid-column: 1 / -1`). |
+| style.css | 23-29,96-101 | `body` en `main` - **Flexbox**, kolom-richting. Simpele verticale stapeling (header boven, inhoud eronder) op één as. |
+| style.css | 276-289 | `.tree-card` - **Flexbox**, kolom-richting. Ook hier is het maar één as: foto, tekst en link staan gewoon onder elkaar, met `gap` voor consistente afstand - geen nood aan een 2D-rooster. |
+| style.css | 103-110,523-531 | `#controls` - **Flexbox**: kolom op mobiel, rij vanaf 1024px. |
 
 #### Basis CSS
 
@@ -255,25 +256,27 @@ remarkable-trees-brussels/
 
 `main.js` staat bewust los in `src/` (niet in `scripts/`), aangezien het de orchestrator is die alle andere modules samenbrengt - een functioneel andere rol dan de losse, herbruikbare modules in `scripts/`.
 
+De kernfunctie hierin is `applyFilters()` (main.js, regels 311-341): ze vertrekt telkens vanaf de volledige, ongewijzigde `allTrees`-lijst en past daarna conditioneel de actieve zoek-, zeldzaamheid-, soort-, favorieten- en afstandsfilters toe, gevolgd door de sortering en tot slot de rendering van lijst, kaart en telling. Op die manier blijven zoeken, sorteren en filteren (zie sectie 2) onderling combineerbaar zonder dat de originele data ooit gemuteerd wordt.
+
 ### 3.7 Concepten buiten de cursusstof
 
 Deze concepten zijn niet expliciet behandeld in de cursus, maar werden tijdens mijn AI-sessies gesuggereerd en na afweging (leesbaarheid, consistentie, meerwaarde) heb ik volgende mee opgenomen: 
 
 | Concept | Bestand | Lijnnummer | Uitleg |
 |---|---|---|---|
-| Spread operator (`[...array]`) | filter.js, favorites.js | 25, 27 | Gebruikt op 2 plekken: `getUniqueSpecies()` (filter.js) - `[...new Set(...)]` zet een `Set` terug om naar een array; `toggleFavorite()` (favorites.js) - `[...favorites, treeId]`, consistent met de `.filter()`-tak in dezelfde functie (die ook een nieuwe array teruggeeft) i.p.v. `.push()` te gebruiken. |
+| Spread operator (`[...array]`) | api.js, filter.js, favorites.js | 16, 25, 27 | Gebruikt op 3 plekken: `fetchTrees()` (api.js) - `[...allTrees, ...data.results]` voegt bij elke paginatie-stap de nieuwe resultaten toe aan de al opgehaalde bomen, zonder mutatie; `getUniqueSpecies()` (filter.js) - `[...new Set(...)]` zet een `Set` terug om naar een array; `toggleFavorite()` (favorites.js) - `[...favorites, treeId]`, consistent met de `.filter()`-tak in dezelfde functie (die ook een nieuwe array teruggeeft) i.p.v. `.push()` te gebruiken. |
 | `.includes()` | favorites.js | 13 | `isFavorite()` - array-methode om te checken of een boom-ID al in de favorieten-array zit. |
-| Event delegation | main.js | 86-93 | `handleFavoriteClick()` - één listener op de containerelement (`#app`), met `event.target.closest('.favorite-icon')` en een early-return guard om te bepalen of en welke favorieten-knop werd aangeklikt. Voorkomt dat elke individuele, dynamisch gerenderde kaart een eigen listener nodig heeft. |
-| Leaflet.js | map.js | 28-43 | Externe library voor de kaartweergave: initialisatie van de kaart, markers, popups per boom, en `invalidateSize()` (via `refreshMapSize()`) om weergaveproblemen bij het wisselen tussen lijst/kaart te vermijden. |
-| `classList.toggle(class, boolean)` | main.js | 129 | `applyViewState()` - `btn.classList.toggle('active', btn.dataset.view === currentView)`: de tweede parameter bepaalt declaratief of de class aan- of afwezig moet zijn, in plaats van een `if/else` met `.add()`/`.remove()`. |
-| Vereenvoudigde afstandsberekening | filter.js | 77-84 | `getDistanceInMeters()` gebruikt een vlakke, Pythagoraskundige benadering (graden omgezet naar meters via een vaste factor, gecorrigeerd voor breedtegraad) in plaats van een preciezere formule zoals Haversine, die rekening houdt met de kromming van de aarde. Voor dit gebruik (bomen filteren binnen een straal van enkele honderden meters tot een paar kilometer, binnen het beperkte oppervlak van het Brussels Hoofdstedelijk Gewest) is het verschil in nauwkeurigheid verwaarloosbaar, terwijl de eenvoudigere formule makkelijker uit te leggen en te verdedigen is. Een bewuste keuze voor eenvoud boven precisie die niet nodig is. |
+| Event delegation | main.js | 86-100 | `handleFavoriteClick()` - één listener op de containerelement (`#app`), met `event.target.closest('.favorite-icon')` en een early-return guard om te bepalen of en welke favorieten-knop werd aangeklikt. Voorkomt dat elke individuele, dynamisch gerenderde kaart een eigen listener nodig heeft. |
+| Leaflet.js | map.js | 28-43, 46-75 | Externe library voor de kaartweergave: initialisatie van de kaart, markers, popups per boom, en `invalidateSize()` (via `refreshMapSize()`) om weergaveproblemen bij het wisselen tussen lijst/kaart te vermijden. |
+| `classList.toggle(class, boolean)` | main.js | 138, 251 | Gebruikt op 2 plekken: `applyViewState()` - `btn.classList.toggle('active', btn.dataset.view === currentView)`; `setLanguage()` - `btn.classList.toggle('active', btn.dataset.lang === currentLang)`. De tweede parameter bepaalt declaratief of de class aan- of afwezig moet zijn, in plaats van een `if/else` met `.add()`/`.remove()`. |
+| Vereenvoudigde afstandsberekening | filter.js | 85-92 | `getDistanceInMeters()` gebruikt een vlakke, Pythagoraskundige benadering (graden omgezet naar meters via een vaste factor, gecorrigeerd voor breedtegraad) in plaats van een preciezere formule zoals Haversine, die rekening houdt met de kromming van de aarde. Voor dit gebruik (bomen filteren binnen een straal van enkele honderden meters tot een paar kilometer, binnen het beperkte oppervlak van het Brussels Hoofdstedelijk Gewest) is het verschil in nauwkeurigheid verwaarloosbaar, terwijl de eenvoudigere formule makkelijker uit te leggen en te verdedigen is. Een bewuste keuze voor eenvoud boven precisie die niet nodig is. |
 
-Voor de styling heb ik ook een aantal zaken gebruikt die nog niet (in detail) gezien waren in de cursus van Web Essentials (zie sectie 7.1)
+Voor de styling heb ik ook een aantal zaken gebruikt die nog niet (in detail) gezien waren in de cursus van Web Essentials (zie sectie 7.1):
 
 | Concept | Bestand | Lijnnummer | Uitleg |
 |---|---|---|---|
 | CSS `transition` | style.css | 193-198 | `#toggle-filters-btn::after` - `transition: transform 0.2s ease` zorgt voor een vloeiende rotatie van het pijltje-icoon (`▾`) bij het openen/sluiten van het filterpaneel, in plaats van een abrupte sprong. |
-| `display: contents` | style.css | 544-548 | Bij `min-width: 1024px` toegepast op `.search-sort-row` en `#filter-wrapper`: haalt deze wrapper-elementen uit de visuele hiërarchie zodat hun kind-elementen rechtstreeks deelnemen aan de flex-layout van `#controls`. Caveat: kan "cascade leaks" veroorzaken (bv. een `flex: 1` uit een lager breakpoint dat blijft doorwerken), en vereist daarom expliciete overrides op het hogere breakpoint. |
+| `display: contents` | style.css | 543-547 | `.search-sort-row` en `#filter-wrapper` zijn in de HTML wrapper-divs rond respectievelijk zoekveld+sorteerknop en de filtervelden. Vanaf 1024px wil ik al die velden in één rij binnen `#controls`, maar die wrapper-divs zitten er als aparte "dozen" tussen. `display: contents` laat zo'n wrapper zelf niet meer meetellen in de layout - enkel zijn inhoud blijft over, alsof de wrapper er nooit stond. De CSS-regel  `flex: 1` op `#search-input`, geschreven toen `.search-sort-row` nog wel de flex-ouder was (bij 640px), blijft ook op 1024px+ gelden. Daarom moest ik die op 1024px+ expliciet overschrijven met een nieuwe waarde. |
 | `aspect-ratio` | style.css | 295-302 | `.tree-photo`, `.tree-icon` - reserveert een vaste verhouding (`260 / 180`) vóór de foto geladen is, wat layoutverschuiving door lazy loading voorkomt. |
 | `minmax()` / `auto-fill` | style.css | 491 | `#app` - `grid-template-columns: repeat(auto-fill, minmax(220px, 1fr))` laat het aantal kolommen automatisch berekenen op basis van beschikbare breedte, zonder een vast aantal kolommen per breakpoint te moeten opgeven. |
 | `filter: hue-rotate()` | style.css | 454-456 | `.user-location-icon` - hergebruikt Leaflet's standaard marker-afbeelding (marker-icon.png) maar herkleurt deze naar paars via hue-rotate() + saturate(), in plaats van een aparte custom afbeelding aan te maken. Onderscheidt de gebruikerslocatie visueel van de boommarkers (.tree-marker-icon). |
@@ -307,6 +310,8 @@ De dataset bevat ook een juridisch statusveld (`statuts_nl`/`statuts_fr`). Dit v
 ## 5. Installatiehandleiding
 
 Deze applicatie gebruikt geen API-key (de Open Data Brussels API is publiek toegankelijk), dus geen `.env`-bestand nodig.
+
+**Vereisten:** [Node.js](https://nodejs.org/) versie 20.19+ of 22.12+ (vereist door Vite 8).
 
 1. **Clone de repository**
    ```bash
@@ -376,21 +381,21 @@ Deze applicatie gebruikt geen API-key (de Open Data Brussels API is publiek toeg
 
 ### Afstandsfilter - actief na locatietoestemming
 
-<img src="screenshots/afstandsfilter.png" width="500">
+<img src="screenshots/Afstandsfilter.png" width="500">
 
 ### Favorieten - "Alleen favorieten"-filter actief
 
-<img src="screenshots/favorieten.png" width="1500">
+<img src="screenshots/Favorieten.png" width="1500">
 
 ### Taalwissel - NL/FR
 
 Nederlands:
 
-<img src="screenshots/taal_nl.png" width="1500">
+<img src="screenshots/Taal_nl.png" width="1500">
 
 Français:
 
-<img src="screenshots/taal_fr.png" width="1500">
+<img src="screenshots/Taal_fr.png" width="1500">
 
 ### "Geen resultaten"-melding (in FR)
 
