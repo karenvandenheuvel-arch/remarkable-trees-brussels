@@ -14,7 +14,7 @@ Bij het verkennen van de dataset viel het op dat niet alle Brusselse gemeenten (
 
 * Data van 582 bomen opgehaald via de Open Data Brussels API, via een while-lus die doorloopt op basis van total_count uit de API-respons - niet een vast aantal calls, zodat de app blijft werken als de dataset groeit
 * Lijstweergave met kaarten per boom: foto, naam, Latijnse naam, omtrek, kroondiameter, zeldzaamheidsbadge, link naar meer info
-* Kaartweergave (Leaflet) met klikbare markers; popup per boom toont een compactere selectie - foto, naam, Latijnse naam en link naar meer info - bewust beperkt gehouden zodat de popup overzichtelijk blijft op een kleine kaartweergave
+* Kaartweergave (Leaflet) met klikbare markers; popup per boom toont een compactere selectie - foto, zeldzaamheidsbadge, naam, Latijnse naam en link naar meer info - bewust beperkt gehouden zodat de popup overzichtelijk blijft op een kleine kaartweergave
 
 **Interactiviteit**
 
@@ -457,4 +457,5 @@ Links naar de conversaties:
 
 - **Favorieten op de map aanduiden** op de kaart, momenteel is er geen favorieten-toggle beschikbaar in de popups van de boommarkers
 - **Favorieten op de map hightlighten** op de kaart, nu kan je wel filteren op favorieten, maar de markers zien er visueel hetzelfde uit als de bomen die niet aangeduid zijn als favoriet. Ik zou ze highlighten met een andere opvulkleur.
+- **Soort-dropdown** toont momenteel altijd alle soorten uit de volledige dataset, ongeacht welke andere filters geactiveerd werden. Een verbetering kan zijn om de dropdown-opties te herberekenen op basis van de geactiveerde filters, om zo 0 resultaten te vermijden.
 - **Boomwandeling-functionaliteit**: boommarkers aanklikken en toevoegen aan een route, route opslaan en exporteren - bewust buiten scope gehouden om de applicatie beheersbaar te houden.
